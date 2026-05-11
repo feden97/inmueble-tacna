@@ -1,0 +1,129 @@
+.dist-subtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: 3rem;
+  margin-top: -1rem;
+}
+
+/* Stacked pisos list */
+.pisos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* Individual piso card */
+.piso-card {
+  padding: 1.5rem;
+  border-left: 4px solid transparent;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.piso-card:hover {
+  border-left-color: var(--accent-gold);
+}
+
+.piso-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.piso-badge {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background-color: var(--accent-gold);
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.piso-title-row {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.piso-nombre {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.piso-area {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  white-space: nowrap;
+}
+
+/* Description */
+.piso-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* Ambientes list */
+.piso-ambientes {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.piso-ambientes li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.piso-bullet {
+  color: var(--accent-gold);
+  font-size: 0.55rem;
+  flex-shrink: 0;
+  margin-top: 0.3rem;
+}
+
+/* Mobile-specific tweaks */
+@media (max-width: 767px) {
+  .piso-card {
+    padding: 1.25rem;
+  }
+  .piso-nombre {
+    font-size: 1.05rem;
+  }
+  .piso-desc {
+    font-size: 0.9rem;
+  }
+}
+
+/* Desktop: two-column layout for pisos */
+@media (min-width: 1024px) {
+  .pisos-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    max-width: var(--max-w-container);
+  }
+  /* Azotea spans full width since it's the 5th item */
+  .pisos-list > *:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    max-width: 760px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
