@@ -8,7 +8,7 @@ export const property = {
   precioPorM2: 594,
   distrito: "Coronel Gregorio Albarracín Lanchipa",
   ciudad: "Tacna, Perú",
-  coordenadas: { lat: -18.0379, lng: -70.2556 },
+  coordenadas: { lat: -18.037787, lng: -70.256499 },
   areaTerrenoM2: 120.5,
   areaConstruidaM2: 387.10,
   pisos: 4,

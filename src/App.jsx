@@ -7,7 +7,7 @@ import Features from './components/Features';
 import IdealUses from './components/IdealUses';
 import Distribution from './components/Distribution';
 import Gallery from './components/Gallery';
-import LocationMap from './components/LocationMap';
+import TransitMap from './components/TransitMap';
 import InvestmentCalc from './components/InvestmentCalc';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
@@ -26,7 +26,7 @@ function App() {
           <IdealUses />
           <Distribution />
           <Gallery />
-          <LocationMap />
+          <TransitMap />
           <InvestmentCalc />
           <Contact />
         </main>
