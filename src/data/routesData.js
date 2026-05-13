@@ -6,6 +6,21 @@
 // Coordenadas cargadas dinámicamente desde nearby_routes.json
 // Importado en TransitMap.jsx
 
+/* 
+ * NOMENCLATURA OFICIAL DE RUTASTACNA.COM (Solo para referencia futura):
+ * - Ruta 203: Ruta 203 Gregorio Albarracín - Ciudad Nueva
+ * - Ruta 01 / 1: Ruta 1 Gregorio Albarracín - Ciudad Nueva
+ * - Ruta 300: Ruta 300 Gregorio Albarracín - Cercado
+ * - Ruta 14: Ruta 14 Gregorio Albarracín - Cercado
+ * - Ruta 11: Ruta 11 Gregorio Albarracín - Cercado
+ * - Ruta 10B: Ruta 10B Gregorio Albarracín - Cercado
+ * - Ruta 13: Ruta 13 Gregorio Albarracín - Cercado
+ * - Ruta B: Ruta B Gregorio Albarracín - Cercado
+ * - Ruta 15: Ruta 15 Gregorio Albarracín - Cercado
+ * Otras rutas que pasan por el distrito pero a más de 800m del inmueble:
+ * Ruta 101, Ruta 102, Ruta 202, Ruta 2B, Ruta 6, Ruta 90.
+ */
+
 export const PROPERTY_COORDS = [-18.037787, -70.256499];
 
 // Metadatos de estilo y descripción por nombre de ruta

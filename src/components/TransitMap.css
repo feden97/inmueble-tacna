@@ -214,11 +214,103 @@
   white-space: nowrap;
 }
 
-/* Route group */
-.route-group {
+/* --- Accordion Route Groups --- */
+.route-group-accordion {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  border: 1px solid rgba(0,0,0,0.06);
+  transition: all 0.2s ease;
+}
+
+.route-group-accordion.expanded {
+  border-color: rgba(0,0,0,0.12);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.route-group-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem;
+  width: 100%;
+  background: white;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  position: relative;
+  z-index: 2;
+}
+
+.route-group-header:hover {
+  background: rgba(0,0,0,0.02);
+}
+
+.route-group-header.active {
+  background: var(--route-color);
+}
+
+.route-group-header.active .route-name,
+.route-group-header.active .route-desc,
+.route-group-header.active .accordion-icon {
+  color: var(--route-text) !important;
+}
+
+.route-group-header.active .route-badge {
+  background: rgba(255,255,255,0.2) !important;
+  color: var(--route-text) !important;
+}
+
+.accordion-icon {
+  font-size: 0.7rem;
+  color: #999;
+  margin-left: auto;
+  transition: transform 0.2s;
+}
+
+.route-group-children {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: rgba(0,0,0,0.03);
+  padding: 0.25rem;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.route-variant-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.8rem;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+}
+
+.route-variant-chip:hover {
+  background: rgba(0,0,0,0.04);
+}
+
+.route-variant-chip.active {
+  background: var(--route-color);
+}
+
+.route-variant-chip.active .route-name,
+.route-variant-chip.active .route-desc,
+.route-variant-chip.active .dist-tag {
+  color: var(--route-text) !important;
+}
+.route-variant-chip.active .sentido-tag {
+  color: var(--route-text) !important;
+  opacity: 0.9;
 }
 
 /* Legend */
@@ -282,4 +374,24 @@
 }
 .leaflet-container {
   font-family: inherit;
+}
+
+/* --- Directional chevron arrows on routes --- */
+
+.leaflet-marker-icon.arrow-icon-wrapper {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.route-chevron {
+  display: block;
+  filter: drop-shadow(0 0 3px rgba(0,0,0,0.5));
+  animation: chevronIn 0.3s ease-out both;
+}
+
+/* Only animate opacity — never touch transform, rotation is inline */
+@keyframes chevronIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
 }
