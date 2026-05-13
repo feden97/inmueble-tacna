@@ -11,7 +11,6 @@ import TransitMap from './components/TransitMap';
 import InvestmentCalc from './components/InvestmentCalc';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import FloatingActions from './components/FloatingActions';
 import './App.css';
 
 function App() {
@@ -31,7 +30,6 @@ function App() {
           <Contact />
         </main>
         <Footer />
-        <FloatingActions />
       </div>
     </HashRouter>
   );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, MessageCircle } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+import WhatsAppIcon from './WhatsAppIcon';
 import { property } from '../data';
 import './Navbar.css';
 
@@ -58,13 +59,13 @@ export default function Navbar() {
     <>
       <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
         <div className="navbar-container">
-          <div className="navbar-logo" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-            Mz 37 · Tacna
+          <div className="navbar-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            Inmueble en Venta
           </div>
-          
+
           <div className="navbar-links hidden-mobile">
             {navLinks.map(link => (
-              <button 
+              <button
                 key={link.id}
                 className={`nav-link ${activeSection === link.id ? 'active' : ''}`}
                 onClick={() => scrollToSection(link.id)}
@@ -76,10 +77,10 @@ export default function Navbar() {
 
           <div className="navbar-actions">
             <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm hidden-mobile">
-              <MessageCircle size={18} /> WhatsApp
+              <WhatsAppIcon size={18} /> WhatsApp
             </a>
             <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="nav-icon-mobile md:hidden text-gold">
-              <MessageCircle size={24} />
+              <WhatsAppIcon size={24} />
             </a>
             <button className="menu-btn md:hidden" onClick={() => setIsMenuOpen(true)}>
               <Menu size={28} />
@@ -91,14 +92,14 @@ export default function Navbar() {
       {/* Mobile Drawer */}
       <div className={`mobile-drawer ${isMenuOpen ? 'open' : ''}`}>
         <div className="drawer-header">
-          <div className="navbar-logo">Mz 37 · Tacna</div>
+          <div className="navbar-logo">Inmueble en Venta</div>
           <button className="close-btn" onClick={() => setIsMenuOpen(false)}>
             <X size={28} />
           </button>
         </div>
         <div className="drawer-links">
           {navLinks.map(link => (
-            <button 
+            <button
               key={link.id}
               className={`drawer-link ${activeSection === link.id ? 'active' : ''}`}
               onClick={() => scrollToSection(link.id)}

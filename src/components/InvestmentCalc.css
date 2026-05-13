@@ -77,6 +77,15 @@
   cursor: pointer;
 }
 
+.slider-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  flex-shrink: 0;
+  min-width: 1.2rem;
+  text-align: center;
+}
+
 .slider-value-badge {
   flex-shrink: 0;
   min-width: 3rem;

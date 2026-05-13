@@ -5,6 +5,11 @@
   margin-top: 2.5rem;
 }
 
+.features-grid.visible .feature-item {
+  animation: staggerFadeUp 0.4s ease-out both;
+  animation-delay: calc(var(--i, 0) * 0.04s);
+}
+
 @media (min-width: 540px) {
   .features-grid {
     grid-template-columns: repeat(2, 1fr);

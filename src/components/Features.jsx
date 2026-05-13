@@ -12,9 +12,9 @@ export default function Features() {
       <div className="container">
         <h2 className="section-title text-center">Características</h2>
         
-        <div className={`features-grid ${isVisible ? 'fade-in-up visible' : 'fade-in-up'}`}>
+        <div className={`features-grid ${isVisible ? 'visible' : ''}`}>
           {caracteristicas.map((item, index) => (
-            <div key={index} className="feature-item">
+            <div key={index} className="feature-item" style={{ '--i': index }}>
               <div className="feature-icon">
                 <Check size={20} />
               </div>

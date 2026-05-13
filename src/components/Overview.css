@@ -30,8 +30,10 @@
   gap: 1rem;
 }
 
-.comparative-banner .bulb {
-  font-size: 1.5rem;
+.comparative-banner .bulb-icon {
+  flex-shrink: 0;
+  color: #b8960f;
+  margin-top: 2px;
 }
 
 .comparative-banner p {

@@ -19,7 +19,7 @@ export const property = {
   construccion: "Antisísmica con planos de arquitectura e ingeniería",
   agua: "Servicio 24hs — 2 tanques 1,000 L + reservorio subterráneo 2,000 L",
   estado: "Inscrito en SUNARP · Único propietario · Papeles al día",
-  contactoWhatsapp: "+51XXXXXXXXX", // TODO: reemplazar con número real
+  contactoWhatsapp: "+51947688502",
   contactoNombre: "Propietario directo",
   descripcionCompleta: `Inmueble de 4 pisos en venta en una de las zonas con mayor crecimiento de Tacna. Ubicado a pasos de la Av. La Cultura, del Colegio Jorge Chávez y del Polideportivo Los Ediles.\n\n387 m² construidos sobre 120.5 m² de terreno. Amplio local comercial de 75 m² con visibilidad directa a la calle, 16 habitaciones, 8 baños completos y terraza en el cuarto piso.\n\nEstructura antisísmica con planos de arquitectura e ingeniería por cada piso. Agua las 24 horas garantizada con dos tanques elevados de 1,000 litros y reservorio subterráneo de 2,000 litros.\n\nDocumentación en regla. Inscrito en SUNARP. Único propietario. Listo para escritura pública. Sin comisiones inmobiliarias.`
 }
@@ -76,12 +76,12 @@ export const caracteristicas = [
 ]
 
 export const usosIdeales = [
-  { uso: "Hotel / Hostal", icono: "🏨", descripcion: "16 habitaciones listas. Alta demanda turística en Tacna." },
-  { uso: "Clínica / Consultorios", icono: "🏥", descripcion: "Distribución por pisos ideal para consultorios independientes." },
-  { uso: "Oficinas", icono: "🏢", descripcion: "Cada piso puede funcionar como unidad independiente." },
-  { uso: "Academia / Instituto", icono: "🎓", descripcion: "Aulas en pisos superiores + recepción en local comercial." },
-  { uso: "Renta por habitaciones", icono: "🔑", descripcion: "Flujo de ingresos inmediato. Zona con alta demanda." },
-  { uso: "Restaurante / Negocio", icono: "🍽️", descripcion: "Local 75 m² con visibilidad directa a la calle." }
+  { uso: "Hotel / Hostal", icono: "Hotel", descripcion: "16 habitaciones listas. Alta demanda turística en Tacna." },
+  { uso: "Clínica / Consultorios", icono: "Stethoscope", descripcion: "Distribución por pisos ideal para consultorios independientes." },
+  { uso: "Oficinas", icono: "Building2", descripcion: "Cada piso puede funcionar como unidad independiente." },
+  { uso: "Academia / Instituto", icono: "GraduationCap", descripcion: "Aulas en pisos superiores + recepción en local comercial." },
+  { uso: "Renta por habitaciones", icono: "Key", descripcion: "Flujo de ingresos inmediato. Zona con alta demanda." },
+  { uso: "Restaurante / Negocio", icono: "UtensilsCrossed", descripcion: "Local 75 m² con visibilidad directa a la calle." }
 ]
 
 export const puntosReferencia = [

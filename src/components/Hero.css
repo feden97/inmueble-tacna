@@ -7,20 +7,21 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600');
+  background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=75');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
   color: var(--text-white);
   overflow: hidden;
 }
 
-/* No fixed attachment on mobile - better performance & no iOS bug */
-@media (max-width: 767px) {
+@media (min-width: 768px) {
   .hero-container {
-    background-attachment: scroll;
+    background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&q=80');
+    background-attachment: fixed;
   }
 }
+
+
 
 .hero-overlay {
   position: absolute;
@@ -142,7 +143,7 @@
 .hero-stats {
   display: flex;
   align-items: stretch;
-  justify-content: center;
+  justify-content: flex-start;
   overflow-x: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -151,6 +152,8 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-top: 1px solid rgba(255,255,255,0.12);
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 1rem;
 }
 
 .hero-stats::-webkit-scrollbar {
@@ -166,6 +169,7 @@
   padding: 0.75rem 1.25rem;
   border-right: 1px solid rgba(255,255,255,0.12);
   white-space: nowrap;
+  scroll-snap-align: center;
 }
 
 .hero-stat-item:last-child {
@@ -194,6 +198,12 @@
   z-index: 2;
   cursor: pointer;
   opacity: 0.7;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 @media (min-width: 768px) {

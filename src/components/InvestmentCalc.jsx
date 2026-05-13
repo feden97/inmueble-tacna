@@ -35,18 +35,22 @@ export default function InvestmentCalc() {
                 <label>Alquiler por habitación / mes (S/.)</label>
                 <input
                   id="rent-price"
-                  type="number"
-                  value={rentPrice}
-                  onChange={(e) => setRentPrice(Number(e.target.value))}
                   className="calc-input"
-                  min="0"
+                  type="text"
                   inputMode="numeric"
+                  pattern="[0-9]*"
+                  value={rentPrice}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/[^0-9]/g, '');
+                    setRentPrice(val === '' ? 0 : Number(val));
+                  }}
                 />
               </div>
 
               <div className="control-group">
                 <label>Habitaciones alquiladas</label>
                 <div className="slider-row">
+                  <span className="slider-label">1</span>
                   <input
                     id="rooms-slider"
                     type="range"
@@ -56,6 +60,7 @@ export default function InvestmentCalc() {
                     onChange={(e) => setRooms(Number(e.target.value))}
                     className="calc-slider"
                   />
+                  <span className="slider-label">16</span>
                   <div className="slider-value-badge">{rooms}</div>
                 </div>
               </div>

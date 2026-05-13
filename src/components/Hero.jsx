@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronDown, MessageCircle, FileText } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { property } from '../data';
 import './Hero.css';
 
@@ -40,16 +40,6 @@ export default function Hero() {
 
         <p className="hero-note">{property.precioNota}</p>
 
-        <div className="hero-actions">
-          <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-            <MessageCircle size={20} />
-            Consultar por WhatsApp
-          </a>
-          <button onClick={scrollToDesc} className="btn btn-outline">
-            <FileText size={20} />
-            Ver detalles
-          </button>
-        </div>
       </div>
 
       {/* Stats bar */}
@@ -64,9 +54,9 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="hero-scroll-indicator animate-bounce">
+      <button className="hero-scroll-indicator animate-bounce" onClick={scrollToDesc} aria-label="Desplazarse hacia abajo">
         <ChevronDown size={28} color="white" />
-      </div>
+      </button>
     </section>
   );
 }

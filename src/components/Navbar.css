@@ -1,16 +1,15 @@
 .navbar {
   position: fixed;
-  top: -100px;
+  top: 0;
   left: 0;
   width: 100%;
   height: var(--header-height);
   background-color: var(--bg-white);
   z-index: 1000;
-  transition: top 0.3s ease, box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease;
 }
 
 .navbar.scrolled {
-  top: 0;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 
@@ -29,6 +28,16 @@
   font-size: 1.25rem;
   letter-spacing: 0.05em;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 480px) {
+  .navbar-logo {
+    font-size: 1.1rem;
+    letter-spacing: 0;
+  }
 }
 
 .navbar-links {
@@ -74,6 +83,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-shrink: 0;
 }
 
 .btn-sm {
@@ -130,6 +140,8 @@
   flex-direction: column;
   padding: 1.5rem;
   gap: 1rem;
+  overflow-y: auto;
+  padding-bottom: 5rem;
 }
 
 .drawer-link {
@@ -154,4 +166,10 @@
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0,0,0,0.5);
   z-index: 1001;
+  animation: overlayFadeIn 0.25s ease-out;
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }

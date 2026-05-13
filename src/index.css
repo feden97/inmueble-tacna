@@ -9,13 +9,13 @@
   --text-secondary: #6b7280;
   --text-white: #ffffff;
   --border-color: #e5e7eb;
-  
+
   --radius-card: 12px;
   --radius-badge: 20px;
-  
-  --shadow-sm: 0 2px 12px rgba(0,0,0,0.08);
-  --shadow-card: 0 4px 24px rgba(0,0,0,0.08);
-  
+
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.08);
+
   --max-w-container: 1100px;
   --header-height: 72px;
 }
@@ -78,7 +78,9 @@ body {
 }
 
 /* Utility */
-.text-center { text-align: center; }
+.text-center {
+  text-align: center;
+}
 
 .bg-light {
   background-color: var(--bg-light);
@@ -95,20 +97,54 @@ body {
 }
 
 /* Flex & Grid Utils */
-.flex { display: flex; }
-.flex-col { display: flex; flex-direction: column; }
-.items-center { align-items: center; }
-.justify-center { justify-content: center; }
-.justify-between { justify-content: space-between; }
-.gap-2 { gap: 0.5rem; }
-.gap-4 { gap: 1rem; }
-.gap-6 { gap: 1.5rem; }
-.gap-8 { gap: 2rem; }
+.flex {
+  display: flex;
+}
 
-.grid { display: grid; }
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+.gap-8 {
+  gap: 2rem;
+}
+
+.grid {
+  display: grid;
+}
+
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+@media (min-width: 768px) {
+  .md\:hidden { display: none !important; }
+}
 
 /* Card Style */
 .card {
@@ -123,7 +159,7 @@ body {
 @media (hover: hover) {
   .card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
   }
 }
 
@@ -145,11 +181,13 @@ body {
 }
 
 .btn-primary {
-  background-color: var(--accent-gold);
-  color: var(--bg-dark);
+  background-color: var(--bg-dark);
+  color: var(--text-white);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .btn-primary:hover {
-  background-color: var(--accent-gold-hover);
+  background-color: #222222;
 }
 
 .btn-outline {
@@ -157,16 +195,20 @@ body {
   border: 1px solid var(--bg-white);
   color: var(--bg-white);
 }
+
 .btn-outline:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Also map success to a professional dark button so the green SVG pops */
 .btn-success {
-  background-color: #25D366; /* WhatsApp Green */
-  color: white;
+  background-color: var(--bg-dark);
+  color: var(--text-white);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .btn-success:hover {
-  background-color: #128C7E;
+  background-color: #222222;
 }
 
 /* Badges */
@@ -192,9 +234,22 @@ body {
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(-10px); }
-  60% { transform: translateY(-5px); }
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(-10px);
+  }
+
+  60% {
+    transform: translateY(-5px);
+  }
 }
 
 .animate-bounce {
@@ -202,9 +257,20 @@ body {
 }
 
 @keyframes pulse-soft {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-  70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+  }
+
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
 }
 
 .animate-pulse {
@@ -213,20 +279,78 @@ body {
 
 /* Responsive Overrides */
 @media (min-width: 768px) {
-  .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .md\:flex-row { flex-direction: row; }
-  .md\:text-left { text-align: left; }
-  .md\:hidden { display: none; }
-  .section-padding { padding: 6rem 0; }
-  .section-title { font-size: 2rem; }
-  .container { padding: 0 2rem; }
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .md\:flex-row {
+    flex-direction: row;
+  }
+
+  .md\:text-left {
+    text-align: left;
+  }
+
+  .md\:hidden {
+    display: none;
+  }
+
+  .section-padding {
+    padding: 6rem 0;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .container {
+    padding: 0 2rem;
+  }
 }
 
 @media (max-width: 767px) {
-  .hidden-mobile { display: none; }
-  /* Give sections a bit less vertical padding on small screens */
-  .section-padding { padding: 3rem 0; }
+  .hidden-mobile {
+    display: none !important;
+  }
+
+  /* Reduce section padding and add side padding for better readability */
+  .section-padding {
+    padding: 2.5rem 0;
+  }
+
+  .section-title {
+    font-size: 1.35rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .container {
+    padding: 0 1.5rem;
+  }
+
   /* Prevent text overflow */
-  img { max-width: 100%; }
+  img {
+    max-width: 100%;
+  }
+
+  /* Prevent bottom bar from hiding last section */
+  main {
+    padding-bottom: 70px;
+  }
+}
+
+/* Staggered entrance animation */
+@keyframes staggerFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

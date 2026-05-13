@@ -5,11 +5,12 @@
   margin-bottom: 2.5rem;
 }
 
-/* Layout */
+/* ===== Layout ===== */
 .transit-layout {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0;
+  position: relative;
 }
 
 @media (min-width: 992px) {
@@ -21,14 +22,22 @@
   }
 }
 
-/* Map */
+/* ===== Map ===== */
 .transit-map-container {
   flex: 1 1 0;
-  height: 55vh;
-  min-height: 380px;
   border-radius: var(--radius-card);
   overflow: hidden;
   box-shadow: var(--shadow-card);
+  position: relative;
+}
+
+/* Mobile: map takes most of the viewport */
+@media (max-width: 991px) {
+  .transit-map-container {
+    height: 70vh;
+    min-height: 400px;
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+  }
 }
 
 @media (min-width: 992px) {
@@ -38,7 +47,45 @@
   }
 }
 
-/* Property marker custom icon */
+/* ===== Clear selection button (floats over the map) ===== */
+.transit-clear-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  background: white;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+  animation: fadeSlideIn 0.25s ease-out;
+}
+
+.transit-clear-btn:hover {
+  box-shadow: 0 4px 14px rgba(0,0,0,0.22);
+  transform: scale(1.04);
+}
+
+.transit-clear-btn .clear-x {
+  font-size: 1rem;
+  line-height: 1;
+  color: #999;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Property marker ===== */
 .property-pin-outer {
   width: 36px;
   height: 36px;
@@ -53,8 +100,8 @@
 }
 
 @keyframes ping {
-  0% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.6); }
-  70% { box-shadow: 0 0 0 14px rgba(201, 168, 76, 0); }
+  0%   { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.6); }
+  70%  { box-shadow: 0 0 0 14px rgba(201, 168, 76, 0); }
   100% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0); }
 }
 
@@ -65,18 +112,60 @@
   background: white;
 }
 
-/* Side Panel */
+/* ===== Side Panel (Desktop) ===== */
 .transit-panel {
-  flex: 0 0 260px;
+  flex: 0 0 280px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 @media (min-width: 992px) {
   .transit-panel {
     max-height: 520px;
     overflow-y: auto;
+    /* Custom scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,0,0,0.15) transparent;
+  }
+
+  .transit-panel::-webkit-scrollbar {
+    width: 5px;
+  }
+  .transit-panel::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.15);
+    border-radius: 10px;
+  }
+}
+
+/* ===== Mobile Bottom Sheet ===== */
+@media (max-width: 991px) {
+  .transit-panel {
+    background: white;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.1);
+    margin-top: -16px;
+    position: relative;
+    z-index: 10;
+    padding: 0 1rem 1rem;
+    max-height: 40vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    /* Smooth scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Drag handle indicator */
+  .transit-panel::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: rgba(0,0,0,0.18);
+    border-radius: 4px;
+    margin: 10px auto 8px;
+    flex-shrink: 0;
   }
 }
 
@@ -90,66 +179,25 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-/* Route list */
+@media (max-width: 991px) {
+  .transit-panel-title {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 2;
+    padding-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+}
+
+/* ===== Route list ===== */
 .transit-routes-list {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-/* On mobile, show as horizontal chips */
-@media (max-width: 991px) {
-  .transit-routes-list {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-}
-
-.route-chip {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  background: var(--bg-white);
-  border: 1.5px solid var(--border-color);
-  border-left: 4px solid var(--route-color);
-  border-radius: 10px;
-  padding: 0.75rem 1rem;
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.2s ease;
-  width: 100%;
-}
-
-.route-chip:hover {
-  border-color: var(--route-color);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-  transform: translateX(2px);
-}
-
-.route-chip.active {
-  background: var(--route-color);
-  border-color: var(--route-color);
-}
-
-.route-chip.active .route-name,
-.route-chip.active .route-desc,
-.route-chip.active .route-arrow {
-  color: var(--route-text);
-}
-
-/* Mobile chips */
-@media (max-width: 991px) {
-  .route-chip {
-    width: auto;
-    padding: 0.5rem 1rem;
-    border-left-width: 3px;
-  }
-  .route-info, .route-arrow {
-    display: none;
-  }
-}
-
+/* ===== Shared elements ===== */
 .route-badge {
   flex-shrink: 0;
   font-size: 0.72rem;
@@ -170,6 +218,9 @@
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .route-desc {
@@ -177,17 +228,6 @@
   color: var(--text-secondary);
   line-height: 1.4;
   margin-top: 0.1rem;
-}
-
-.route-arrow {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  flex-shrink: 0;
-  transition: transform 0.2s;
-}
-
-.route-chip:hover .route-arrow {
-  transform: translateX(3px);
 }
 
 /* Direction + distance tags */
@@ -204,9 +244,9 @@
   font-weight: 700;
   line-height: 1;
 }
-.sentido-ida { color: #1565C0; }
+.sentido-ida    { color: #1565C0; }
 .sentido-vuelta { color: #B71C1C; }
-.sentido-ambos { color: #2E7D32; }
+.sentido-ambos  { color: #2E7D32; }
 
 .dist-tag {
   font-size: 0.7rem;
@@ -214,16 +254,21 @@
   white-space: nowrap;
 }
 
-/* --- Accordion Route Groups --- */
+/* ===== Accordion Route Groups ===== */
 .route-group-accordion {
   display: flex;
   flex-direction: column;
-  gap: 0;
   border-radius: 12px;
   overflow: hidden;
   background: white;
   border: 1px solid rgba(0,0,0,0.06);
-  transition: all 0.2s ease;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+@media (max-width: 991px) {
+  .route-group-accordion {
+    border-radius: 10px;
+  }
 }
 
 .route-group-accordion.expanded {
@@ -241,9 +286,14 @@
   border: none;
   cursor: pointer;
   text-align: left;
-  transition: all 0.2s;
+  transition: background 0.2s;
   position: relative;
   z-index: 2;
+  /* Prevent text selection on tap */
+  -webkit-user-select: none;
+  user-select: none;
+  /* Mobile touch target */
+  min-height: 48px;
 }
 
 .route-group-header:hover {
@@ -269,7 +319,23 @@
   font-size: 0.7rem;
   color: #999;
   margin-left: auto;
-  transition: transform 0.2s;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.route-group-accordion.expanded .accordion-icon {
+  transform: rotate(90deg);
+}
+
+/* ===== Smooth Accordion Animation ===== */
+.route-group-children-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.route-group-accordion.expanded .route-group-children-wrapper {
+  grid-template-rows: 1fr;
 }
 
 .route-group-children {
@@ -277,10 +343,17 @@
   flex-direction: column;
   gap: 1px;
   background: rgba(0,0,0,0.03);
-  padding: 0.25rem;
+  padding: 0 0.25rem;
   border-top: 1px solid rgba(0,0,0,0.05);
+  overflow: hidden;
+  min-height: 0; /* Required for grid animation */
 }
 
+.route-group-accordion.expanded .route-group-children {
+  padding: 0.25rem;
+}
+
+/* ===== Route Variant Chips ===== */
 .route-variant-chip {
   display: flex;
   align-items: center;
@@ -292,11 +365,21 @@
   border-radius: 8px;
   cursor: pointer;
   text-align: left;
-  transition: all 0.2s;
+  transition: background 0.2s;
+  /* Mobile touch target */
+  min-height: 44px;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
-.route-variant-chip:hover {
-  background: rgba(0,0,0,0.04);
+@media (hover: hover) {
+  .route-variant-chip:hover {
+    background: rgba(0,0,0,0.04);
+  }
+}
+
+.route-variant-chip:active {
+  background: rgba(0,0,0,0.06);
 }
 
 .route-variant-chip.active {
@@ -313,51 +396,7 @@
   opacity: 0.9;
 }
 
-/* Legend */
-.transit-legend {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  padding: 0.75rem;
-  background: var(--bg-light, #f8f7f4);
-  border-radius: 10px;
-  margin-top: 0.5rem;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-}
-
-.legend-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.route-detail-box {
-  background: var(--bg-light);
-  border-left: 4px solid;
-  border-radius: 10px;
-  padding: 1rem;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-}
-
-.route-detail-badge {
-  display: inline-block;
-  border-radius: 6px;
-  padding: 0.2rem 0.6rem;
-  font-size: 0.8rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-/* Source */
+/* ===== Source ===== */
 .transit-source {
   font-size: 0.75rem;
   color: var(--text-secondary);
@@ -366,7 +405,7 @@
   padding-top: 0.5rem;
 }
 
-/* Leaflet popup */
+/* ===== Leaflet popup ===== */
 .leaflet-popup-content-wrapper {
   border-radius: 10px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.15);
@@ -376,8 +415,7 @@
   font-family: inherit;
 }
 
-/* --- Directional chevron arrows on routes --- */
-
+/* ===== Directional chevron arrows on routes ===== */
 .leaflet-marker-icon.arrow-icon-wrapper {
   background: transparent !important;
   border: none !important;
@@ -390,7 +428,6 @@
   animation: chevronIn 0.3s ease-out both;
 }
 
-/* Only animate opacity — never touch transform, rotation is inline */
 @keyframes chevronIn {
   0%   { opacity: 0; }
   100% { opacity: 1; }

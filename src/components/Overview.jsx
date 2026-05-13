@@ -1,7 +1,7 @@
 import React from 'react';
 import { property } from '../data';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, Lightbulb } from 'lucide-react';
 import './Overview.css';
 
 export default function Overview() {
@@ -21,7 +21,7 @@ export default function Overview() {
             </div>
 
             <div className="comparative-banner">
-              <span className="bulb">💡</span>
+              <Lightbulb size={22} className="bulb-icon" />
               <p>
                 El precio/m² de este inmueble (<strong>USD {property.precioPorM2}/m²</strong>) está en línea 
                 con el mercado de {property.distrito} (rango: $518–$620/m²).

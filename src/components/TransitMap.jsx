@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, Circle, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { property } from '../data';
 import { PROPERTY_COORDS, ROUTE_META } from '../data/routesData';
 import nearbyRoutesRaw from '../data/nearby_routes.json';
+import WhatsAppIcon from './WhatsAppIcon';
 import './TransitMap.css';
 
 // --- Arrow direction helpers ---
@@ -77,6 +78,18 @@ const rutasCercanas = nearbyRoutesRaw
     };
   });
 
+// Group routes by linea number (static data, computed once)
+const grouped = {};
+rutasCercanas.forEach(r => {
+  if (!grouped[r.linea]) grouped[r.linea] = [];
+  grouped[r.linea].push(r);
+});
+const groupedArray = Object.entries(grouped).map(([linea, rutas]) => ({
+  linea,
+  rutas: rutas.sort((a, b) => a.dist_km - b.dist_km),
+  minDist: Math.min(...rutas.map(r => r.dist_km)),
+})).sort((a, b) => a.minDist - b.minDist);
+
 // Custom gold pin for the property
 const propertyIcon = L.divIcon({
   className: '',
@@ -85,21 +98,7 @@ const propertyIcon = L.divIcon({
   iconAnchor: [18, 18],
 });
 
-// Fly-to on route selection
-function FlyToRoute({ coords }) {
-  const map = useMap();
-  useEffect(() => {
-    if (coords && coords.length > 0) {
-      const currentZoom = map.getZoom();
-      const currentCenter = map.getCenter();
-      const targetCenter = L.latLng(PROPERTY_COORDS);
-      if (currentZoom !== 16 || currentCenter.distanceTo(targetCenter) > 10) {
-        map.flyTo(PROPERTY_COORDS, 16, { duration: 1.5 });
-      }
-    }
-  }, [coords, map]);
-  return null;
-}
+
 
 // Directional arrow markers along the active route
 function RouteArrows({ ruta }) {
@@ -117,6 +116,7 @@ function RouteArrows({ ruta }) {
   }, [map]);
 
   useEffect(() => {
+    // Cleanup previous markers
     markersRef.current.forEach(m => m.remove());
     markersRef.current = [];
 
@@ -166,58 +166,55 @@ function RouteArrows({ ruta }) {
 export default function TransitMap() {
   const [activeGroup, setActiveGroup] = useState(null);
   const [activeVariant, setActiveVariant] = useState(null);
-  const [flyCoords, setFlyCoords] = useState(null);
   const whatsapp = `https://wa.me/${property.contactoWhatsapp.replace(/\+/g, '')}`;
 
-  const handleGroupClick = (linea, rutas) => {
+  const handleGroupClick = useCallback((linea) => {
     if (activeGroup === linea) {
       // Deselect group
       setActiveGroup(null);
       setActiveVariant(null);
-      setFlyCoords(null);
     } else {
       // Select group, show all its variants on map
       setActiveGroup(linea);
       setActiveVariant(null);
-      if (rutas && rutas.length > 0) {
-        setFlyCoords(rutas[0].coords);
-      }
     }
-  };
+  }, [activeGroup]);
 
-  const handleVariantClick = (ruta, e) => {
+  // For lines with a single variant, clicking directly selects that route
+  const handleSingleRouteClick = useCallback((linea, ruta) => {
+    if (activeGroup === linea) {
+      setActiveGroup(null);
+      setActiveVariant(null);
+    } else {
+      setActiveGroup(linea);
+      setActiveVariant(ruta.id);
+    }
+  }, [activeGroup]);
+
+  const handleVariantClick = useCallback((ruta, e) => {
     e.stopPropagation(); // prevent accordion from toggling
     if (activeVariant === ruta.id) {
       // Deselecting variant returns to showing all variants in the group
       setActiveVariant(null);
     } else {
       setActiveVariant(ruta.id);
-      setFlyCoords(ruta.coords);
     }
-  };
+  }, [activeVariant]);
 
-  // Group routes by linea number for the panel
-  const grouped = {};
-  rutasCercanas.forEach(r => {
-    if (!grouped[r.linea]) grouped[r.linea] = [];
-    grouped[r.linea].push(r);
-  });
+  const handleClearSelection = useCallback(() => {
+    setActiveGroup(null);
+    setActiveVariant(null);
+  }, []);
 
-  // Convert to array and sort by proximity
-  const groupedArray = Object.entries(grouped).map(([linea, rutas]) => {
-    return {
-      linea,
-      rutas: rutas.sort((a, b) => a.dist_km - b.dist_km),
-      minDist: Math.min(...rutas.map(r => r.dist_km))
-    };
-  }).sort((a, b) => a.minDist - b.minDist);
+  // Get the active route name for the clear button
+  const activeRouteName = activeGroup ? `Línea ${activeGroup}` : null;
 
   return (
     <section id="mapa" className="section-padding bg-light">
       <div className="container">
         <h2 className="section-title text-center">Ubicación y Transporte</h2>
         <p className="map-subtitle text-center">
-          {rutasCercanas.length} líneas de transporte pasan dentro de 800m · Seleccioná una para ver su trayecto
+          {groupedArray.length} líneas de transporte pasan cerca · Seleccioná una para ver su trayecto
         </p>
 
         <div className="transit-layout">
@@ -235,13 +232,27 @@ export default function TransitMap() {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
 
+              {/* 800m radius circle for context */}
+              <Circle
+                center={PROPERTY_COORDS}
+                radius={800}
+                pathOptions={{
+                  color: '#c9a84c',
+                  fillColor: '#c9a84c',
+                  fillOpacity: 0.04,
+                  weight: 1,
+                  dashArray: '6 4',
+                  opacity: 0.35,
+                }}
+              />
+
               {/* Route polylines */}
               {rutasCercanas.map((ruta) => {
                 const isGroupActive = activeGroup === ruta.linea;
                 const isVariantActive = activeVariant === ruta.id;
                 // It's active if its specific variant is selected, OR if its parent group is selected and no specific variant is selected
                 const showAsActive = isVariantActive || (isGroupActive && !activeVariant);
-                
+
                 return (
                   <Polyline
                     key={ruta.id}
@@ -252,13 +263,15 @@ export default function TransitMap() {
                       // Non-selected routes disappear completely (opacity 0) to clean the map
                       opacity: activeGroup ? (showAsActive ? 1 : 0) : 0.65,
                     }}
-                    eventHandlers={{ click: () => {
-                      if (!activeGroup) {
-                        handleGroupClick(ruta.linea, groupedArray.find(g => g.linea === ruta.linea)?.rutas);
-                      } else {
-                        handleVariantClick(ruta, { stopPropagation: () => {} });
+                    eventHandlers={{
+                      click: () => {
+                        if (!activeGroup) {
+                          handleGroupClick(ruta.linea);
+                        } else {
+                          handleVariantClick(ruta, { stopPropagation: () => { } });
+                        }
                       }
-                    }}}
+                    }}
                   >
                     <Popup autoPan={false}>
                       <div style={{ fontFamily: 'Inter, sans-serif' }}>
@@ -280,15 +293,15 @@ export default function TransitMap() {
                     <strong style={{ fontSize: '0.95rem' }}>{property.titulo}</strong><br />
                     <span style={{ fontSize: '0.82rem' }}>{property.areaConstruidaM2} m² · {property.precioTexto}</span><br />
                     <a href={whatsapp} target="_blank" rel="noopener noreferrer"
-                      style={{ color: '#25D366', fontWeight: 600, fontSize: '0.85rem' }}>
-                      💬 Consultar por WhatsApp
+                      style={{ color: '#25D366', fontWeight: 600, fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                      <WhatsAppIcon size={16} /> Consultar
                     </a>
                   </div>
                 </Popup>
               </Marker>
 
-              {flyCoords && <FlyToRoute coords={flyCoords} />}
-              
+
+
               {/* Route Direction Arrows */}
               {/* Show arrows for all variants in the group if no specific variant is selected, otherwise only the selected one */}
               {activeGroup && !activeVariant && groupedArray.find(g => g.linea === activeGroup)?.rutas.map(r => (
@@ -296,25 +309,59 @@ export default function TransitMap() {
               ))}
               {activeVariant && <RouteArrows ruta={rutasCercanas.find(r => r.id === activeVariant)} />}
             </MapContainer>
+
+            {/* Clear selection button - floats over the map */}
+            {activeGroup && (
+              <button className="transit-clear-btn" onClick={handleClearSelection}>
+                <span className="clear-x">✕</span> {activeRouteName}
+              </button>
+            )}
           </div>
 
-          {/* Side panel */}
+          {/* Side panel / Bottom sheet (mobile) */}
           <div className="transit-panel">
-            <div className="transit-panel-title">Líneas cercanas ({rutasCercanas.length})</div>
+            <div className="transit-panel-title">Líneas cercanas ({groupedArray.length})</div>
 
             <div className="transit-routes-list">
               {groupedArray.map(({ linea, rutas }) => {
                 const isExpanded = activeGroup === linea;
                 const primaryColor = rutas[0].color;
                 const primaryTextColor = rutas[0].textColor;
+                const isSingle = rutas.length === 1;
 
+                // Single variant: flat button, no accordion
+                if (isSingle) {
+                  const ruta = rutas[0];
+                  const isActive = activeGroup === linea;
+                  return (
+                    <div key={linea} className={`route-group-accordion ${isActive ? 'expanded' : ''}`}>
+                      <button
+                        className={`route-group-header ${isActive ? 'active' : ''}`}
+                        onClick={() => handleSingleRouteClick(linea, ruta)}
+                        style={{ '--route-color': primaryColor, '--route-text': primaryTextColor }}
+                      >
+                        <span className="route-badge" style={{ background: primaryColor, color: primaryTextColor }}>
+                          {linea}
+                        </span>
+                        <div className="route-info">
+                          <div className="route-name">{ruta.nombre}</div>
+                          <div className="route-desc">{ruta.descripcion} · a {Math.round(ruta.dist_km * 1000)}m</div>
+                        </div>
+                        {/* Invisible icon placeholder to perfectly align with multi-variant buttons */}
+                        <div className="accordion-icon" style={{ opacity: 0 }}>▶</div>
+                      </button>
+                    </div>
+                  );
+                }
+
+                // Multiple variants: accordion with expandable children
                 return (
                   <div key={linea} className={`route-group-accordion ${isExpanded ? 'expanded' : ''}`}>
-                    
+
                     {/* Parent Group Header */}
                     <button
                       className={`route-group-header ${isExpanded ? 'active' : ''}`}
-                      onClick={() => handleGroupClick(linea, rutas)}
+                      onClick={() => handleGroupClick(linea)}
                       style={{ '--route-color': primaryColor, '--route-text': primaryTextColor }}
                     >
                       <span className="route-badge" style={{ background: primaryColor, color: primaryTextColor }}>
@@ -322,20 +369,18 @@ export default function TransitMap() {
                       </span>
                       <div className="route-info">
                         <div className="route-name">Línea {linea}</div>
-                        <div className="route-desc">{rutas.length} variante{rutas.length > 1 ? 's' : ''}</div>
+                        <div className="route-desc">ida y vuelta · a {Math.round(rutas[0].dist_km * 1000)}m</div>
                       </div>
-                      <div className="accordion-icon">
-                        {isExpanded ? '▼' : '▶'}
-                      </div>
+                      <div className="accordion-icon">▶</div>
                     </button>
 
-                    {/* Children Variants (collapsible) */}
-                    {isExpanded && (
+                    {/* Children Variants — always rendered, animated via CSS grid */}
+                    <div className="route-group-children-wrapper">
                       <div className="route-group-children">
                         {rutas.map(ruta => {
                           const isVariantActive = activeVariant === ruta.id;
                           const distLabel = `~${Math.round(ruta.dist_km * 1000)}m`;
-                          
+
                           return (
                             <button
                               key={ruta.id}
@@ -357,16 +402,10 @@ export default function TransitMap() {
                           );
                         })}
                       </div>
-                    )}
+                    </div>
                   </div>
                 );
               })}
-            </div>
-
-            <div className="transit-legend">
-              <span className="legend-item"><span className="legend-dot" style={{ background: '#E91E63' }}></span>Muy cercana (&lt;100m)</span>
-              <span className="legend-item"><span className="legend-dot" style={{ background: '#FF6F00' }}></span>Cercana (&lt;400m)</span>
-              <span className="legend-item"><span className="legend-dot" style={{ background: '#5E35B1' }}></span>En el barrio (&lt;800m)</span>
             </div>
 
             <div className="transit-source">

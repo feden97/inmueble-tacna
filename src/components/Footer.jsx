@@ -1,6 +1,6 @@
 import React from 'react';
 import { property } from '../data';
-import { MessageCircle } from 'lucide-react';
+import WhatsAppIcon from './WhatsAppIcon';
 import './Footer.css';
 
 export default function Footer() {
@@ -22,12 +22,12 @@ export default function Footer() {
           <div className="footer-col">
             <h3 className="footer-title">{property.titulo}</h3>
             <p className="footer-desc">
-              {property.distrito}<br/>
-              {property.precioTexto}<br/>
+              {property.distrito}<br />
+              {property.precioTexto}<br />
               Análisis de mercado {currentYear}
             </p>
           </div>
-          
+
           <div className="footer-col">
             <h3 className="footer-title">Secciones</h3>
             <ul className="footer-links">
@@ -38,19 +38,19 @@ export default function Footer() {
               <li><button onClick={() => scrollToSection('inversion')}>Inversión</button></li>
             </ul>
           </div>
-          
+
           <div className="footer-col">
             <h3 className="footer-title">Contacto</h3>
             <p className="footer-desc">
-              {property.contactoNombre}<br/>
+              {property.contactoNombre}<br />
               Venta Directa
             </p>
             <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ marginTop: '1rem' }}>
-              <MessageCircle size={18} /> WhatsApp
+              <WhatsAppIcon size={18} /> WhatsApp
             </a>
           </div>
         </div>
-        
+
         <div className="footer-bottom">
           <p>© {currentYear} · Inmueble {property.distrito} · {property.ciudad} · Venta directa</p>
         </div>
