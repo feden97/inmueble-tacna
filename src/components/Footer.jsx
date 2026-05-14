@@ -1,5 +1,4 @@
-import React from 'react';
-import { property } from '../data';
+﻿import { property } from '../data';
 import WhatsAppIcon from './WhatsAppIcon';
 import './Footer.css';
 
@@ -24,18 +23,18 @@ export default function Footer() {
             <p className="footer-desc">
               {property.distrito}<br />
               {property.precioTexto}<br />
-              Análisis de mercado {currentYear}
+              Analisis de mercado {currentYear}
             </p>
           </div>
 
           <div className="footer-col">
             <h3 className="footer-title">Secciones</h3>
             <ul className="footer-links">
-              <li><button onClick={() => scrollToSection('descripcion')}>Descripción</button></li>
-              <li><button onClick={() => scrollToSection('distribucion')}>Distribución</button></li>
-              <li><button onClick={() => scrollToSection('galeria')}>Galería</button></li>
+              <li><button onClick={() => scrollToSection('descripcion')}>Descripcion</button></li>
+              <li><button onClick={() => scrollToSection('distribucion')}>Distribucion</button></li>
+              <li><button onClick={() => scrollToSection('galeria')}>Galeria</button></li>
               <li><button onClick={() => scrollToSection('mapa')}>Mapa</button></li>
-              <li><button onClick={() => scrollToSection('inversion')}>Inversión</button></li>
+              <li><button onClick={() => scrollToSection('inversion')}>Inversion</button></li>
             </ul>
           </div>
 
@@ -52,7 +51,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>© {currentYear} · Inmueble {property.distrito} · {property.ciudad} · Venta directa</p>
+          <p>(c) {currentYear} - Inmueble {property.distrito} - {property.ciudad} - Venta directa</p>
         </div>
       </div>
     </footer>

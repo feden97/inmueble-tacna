@@ -9,15 +9,15 @@
 .transit-layout {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 1rem;
   position: relative;
 }
 
 @media (min-width: 992px) {
   .transit-layout {
     flex-direction: row;
-    align-items: flex-start;
-    gap: 2rem;
+    align-items: stretch;
+    gap: 1rem;
     min-height: 520px;
   }
 }
@@ -25,18 +25,18 @@
 /* ===== Map ===== */
 .transit-map-container {
   flex: 1 1 0;
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-card, 16px);
   overflow: hidden;
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
   position: relative;
 }
 
 /* Mobile: map takes most of the viewport */
 @media (max-width: 991px) {
   .transit-map-container {
-    height: 70vh;
-    min-height: 400px;
-    border-radius: var(--radius-card) var(--radius-card) 0 0;
+    height: 50vh;
+    min-height: 350px;
+    border-radius: var(--radius-card, 16px);
   }
 }
 
@@ -45,6 +45,39 @@
     height: 520px;
     min-height: unset;
   }
+}
+
+/* ===== Floating Google Maps button ===== */
+.transit-gmaps-floating-btn {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: var(--bg-dark);
+  color: var(--text-white);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.transit-gmaps-floating-btn:hover {
+  background: #222222;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.transit-gmaps-floating-btn:focus-visible {
+  outline: 3px solid rgba(201, 168, 76, 0.45);
+  outline-offset: 2px;
 }
 
 /* ===== Clear selection button (floats over the map) ===== */
@@ -60,7 +93,7 @@
   background: white;
   border: none;
   border-radius: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--text-primary);
@@ -70,7 +103,7 @@
 }
 
 .transit-clear-btn:hover {
-  box-shadow: 0 4px 14px rgba(0,0,0,0.22);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
   transform: scale(1.04);
 }
 
@@ -81,8 +114,15 @@
 }
 
 @keyframes fadeSlideIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ===== Property marker ===== */
@@ -94,15 +134,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-  animation: ping 2s cubic-bezier(0,0,0.2,1) infinite;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
   position: relative;
 }
 
 @keyframes ping {
-  0%   { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.6); }
-  70%  { box-shadow: 0 0 0 14px rgba(201, 168, 76, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.6);
+  }
+
+  70% {
+    box-shadow: 0 0 0 14px rgba(201, 168, 76, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(201, 168, 76, 0);
+  }
 }
 
 .property-pin-inner {
@@ -112,9 +160,28 @@
   background: white;
 }
 
-/* ===== Side Panel (Desktop) ===== */
+/* ===== Side Panel ===== */
 .transit-panel {
-  flex: 0 0 280px;
+  flex: 0 0 320px;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: var(--radius-card, 16px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.transit-panel-header {
+  padding: 1.25rem 1.25rem 0.75rem;
+  background: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.transit-panel-body {
+  padding: 0.75rem 1.25rem 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -123,71 +190,71 @@
 @media (min-width: 992px) {
   .transit-panel {
     max-height: 520px;
-    overflow-y: auto;
-    /* Custom scrollbar */
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0,0,0,0.15) transparent;
   }
 
-  .transit-panel::-webkit-scrollbar {
+  .transit-panel-body {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+  }
+
+  .transit-panel-body::-webkit-scrollbar {
     width: 5px;
   }
-  .transit-panel::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.15);
+
+  .transit-panel-body::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
     border-radius: 10px;
   }
 }
 
-/* ===== Mobile Bottom Sheet ===== */
-@media (max-width: 991px) {
-  .transit-panel {
-    background: white;
-    border-radius: 16px 16px 0 0;
-    box-shadow: 0 -4px 24px rgba(0,0,0,0.1);
-    margin-top: -16px;
-    position: relative;
-    z-index: 10;
-    padding: 0 1rem 1rem;
-    max-height: 40vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    overscroll-behavior: contain;
-    /* Smooth scrolling on iOS */
-    -webkit-overflow-scrolling: touch;
+@media (max-width: 900px) {
+  .transit-gmaps-floating-btn {
+    left: auto;
+    right: 5px;
+    bottom: 5px;
+    min-height: 34px;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.75rem;
   }
 
-  /* Drag handle indicator */
-  .transit-panel::before {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 4px;
-    background: rgba(0,0,0,0.18);
-    border-radius: 4px;
-    margin: 10px auto 8px;
-    flex-shrink: 0;
+  .transit-panel {
+    flex: auto;
+    width: 100%;
+    margin-top: 0;
+    position: relative;
+    z-index: 10;
+  }
+
+  .transit-panel-body {
+    overflow: visible;
   }
 }
 
 .transit-panel-title {
-  font-size: 0.8rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-secondary);
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: -0.01em;
 }
 
 @media (max-width: 991px) {
   .transit-panel-title {
-    position: sticky;
-    top: 0;
-    background: white;
-    z-index: 2;
-    padding-top: 0.25rem;
-    margin-bottom: 0.25rem;
+    justify-content: center;
   }
+}
+
+.transit-badge {
+  background: rgba(201, 168, 76, 0.12);
+  color: var(--accent-gold, #c9a84c);
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-weight: 800;
 }
 
 /* ===== Route list ===== */
@@ -200,13 +267,17 @@
 /* ===== Shared elements ===== */
 .route-badge {
   flex-shrink: 0;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 800;
-  padding: 0.2rem 0.45rem;
-  border-radius: 6px;
-  min-width: 32px;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  letter-spacing: 0.02em;
+  padding: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .route-info {
@@ -215,16 +286,17 @@
 }
 
 .route-name {
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 700;
   color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: -0.01em;
 }
 
 .route-desc {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
   line-height: 1.4;
   margin-top: 0.1rem;
@@ -240,64 +312,69 @@
 }
 
 .sentido-tag {
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1;
 }
-.sentido-ida    { color: #1565C0; }
-.sentido-vuelta { color: #B71C1C; }
-.sentido-ambos  { color: #2E7D32; }
+
+.sentido-ida {
+  color: #1565C0;
+}
+
+.sentido-vuelta {
+  color: #B71C1C;
+}
+
+.sentido-ambos {
+  color: #2E7D32;
+}
 
 .dist-tag {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
   white-space: nowrap;
+  font-weight: 500;
 }
 
 /* ===== Accordion Route Groups ===== */
 .route-group-accordion {
   display: flex;
   flex-direction: column;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
-  background: white;
-  border: 1px solid rgba(0,0,0,0.06);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fcfcfc;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  transition: all 0.25s ease;
 }
 
-@media (max-width: 991px) {
-  .route-group-accordion {
-    border-radius: 10px;
-  }
+.route-group-accordion:hover {
+  background: white;
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 .route-group-accordion.expanded {
-  border-color: rgba(0,0,0,0.12);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  background: white;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
 .route-group-header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.8rem;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
   width: 100%;
-  background: white;
+  background: transparent;
   border: none;
   cursor: pointer;
   text-align: left;
   transition: background 0.2s;
   position: relative;
   z-index: 2;
-  /* Prevent text selection on tap */
   -webkit-user-select: none;
   user-select: none;
-  /* Mobile touch target */
-  min-height: 48px;
-}
-
-.route-group-header:hover {
-  background: rgba(0,0,0,0.02);
+  min-height: 54px;
 }
 
 .route-group-header.active {
@@ -311,13 +388,14 @@
 }
 
 .route-group-header.active .route-badge {
-  background: rgba(255,255,255,0.2) !important;
+  background: rgba(255, 255, 255, 0.2) !important;
   color: var(--route-text) !important;
+  box-shadow: none;
 }
 
 .accordion-icon {
   font-size: 0.7rem;
-  color: #999;
+  color: #aaa;
   margin-left: auto;
   transition: transform 0.3s ease;
   flex-shrink: 0;
@@ -342,11 +420,11 @@
   display: flex;
   flex-direction: column;
   gap: 1px;
-  background: rgba(0,0,0,0.03);
+  background: rgba(0, 0, 0, 0.02);
   padding: 0 0.25rem;
-  border-top: 1px solid rgba(0,0,0,0.05);
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
   overflow: hidden;
-  min-height: 0; /* Required for grid animation */
+  min-height: 0;
 }
 
 .route-group-accordion.expanded .route-group-children {
@@ -366,7 +444,6 @@
   cursor: pointer;
   text-align: left;
   transition: background 0.2s;
-  /* Mobile touch target */
   min-height: 44px;
   -webkit-user-select: none;
   user-select: none;
@@ -374,12 +451,12 @@
 
 @media (hover: hover) {
   .route-variant-chip:hover {
-    background: rgba(0,0,0,0.04);
+    background: rgba(0, 0, 0, 0.04);
   }
 }
 
 .route-variant-chip:active {
-  background: rgba(0,0,0,0.06);
+  background: rgba(0, 0, 0, 0.06);
 }
 
 .route-variant-chip.active {
@@ -391,28 +468,35 @@
 .route-variant-chip.active .dist-tag {
   color: var(--route-text) !important;
 }
+
 .route-variant-chip.active .sentido-tag {
   color: var(--route-text) !important;
   opacity: 0.9;
 }
 
-/* ===== Source ===== */
-.transit-source {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  text-align: right;
-  margin-top: auto;
-  padding-top: 0.5rem;
-}
-
 /* ===== Leaflet popup ===== */
 .leaflet-popup-content-wrapper {
   border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   font-size: 0.9rem;
 }
+
 .leaflet-container {
   font-family: inherit;
+}
+
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.86) !important;
+  border-radius: 8px !important;
+  margin: 0 8px 8px 0 !important;
+  padding: 2px 6px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  font-size: 10px !important;
+  line-height: 1.2 !important;
+}
+
+.leaflet-control-attribution a {
+  color: #5b5b5b !important;
 }
 
 /* ===== Directional chevron arrows on routes ===== */
@@ -424,11 +508,16 @@
 
 .route-chevron {
   display: block;
-  filter: drop-shadow(0 0 3px rgba(0,0,0,0.5));
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.5));
   animation: chevronIn 0.3s ease-out both;
 }
 
 @keyframes chevronIn {
-  0%   { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

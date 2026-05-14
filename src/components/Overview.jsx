@@ -1,5 +1,4 @@
-import React from 'react';
-import { property } from '../data';
+﻿import { property } from '../data';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { CheckCircle2, Lightbulb } from 'lucide-react';
 import './Overview.css';
@@ -11,9 +10,8 @@ export default function Overview() {
     <section id="descripcion" className="section-padding" ref={ref}>
       <div className="container">
         <div className={`overview-grid ${isVisible ? 'fade-in-up visible' : 'fade-in-up'}`}>
-          
           <div className="overview-text">
-            <h2 className="section-title">Descripción</h2>
+            <h2 className="section-title">Descripcion</h2>
             <div className="overview-description">
               {property.descripcionCompleta.split('\n\n').map((paragraph, idx) => (
                 <p key={idx}>{paragraph}</p>
@@ -23,8 +21,7 @@ export default function Overview() {
             <div className="comparative-banner">
               <Lightbulb size={22} className="bulb-icon" />
               <p>
-                El precio/m² de este inmueble (<strong>USD {property.precioPorM2}/m²</strong>) está en línea 
-                con el mercado de {property.distrito} (rango: $518–$620/m²).
+                El precio/m2 de este inmueble (<strong>USD {property.precioPorM2}/m2</strong>) esta en linea con el mercado de {property.distrito} (rango: $518-$620/m2).
               </p>
             </div>
           </div>
@@ -33,12 +30,12 @@ export default function Overview() {
             <div className="card stats-card">
               <div className="stats-grid">
                 <div className="stat-item">
-                  <div className="stat-value text-gold">{property.areaConstruidaM2} m²</div>
-                  <div className="stat-label">Área construida</div>
+                  <div className="stat-value text-gold">{property.areaConstruidaM2} m2</div>
+                  <div className="stat-label">Area construida</div>
                 </div>
                 <div className="stat-item">
-                  <div className="stat-value text-gold">{property.areaTerrenoM2} m²</div>
-                  <div className="stat-label">Área de terreno</div>
+                  <div className="stat-value text-gold">{property.areaTerrenoM2} m2</div>
+                  <div className="stat-label">Area de terreno</div>
                 </div>
                 <div className="stat-item">
                   <div className="stat-value text-gold">{property.habitaciones}</div>
@@ -46,10 +43,10 @@ export default function Overview() {
                 </div>
                 <div className="stat-item">
                   <div className="stat-value text-gold">{property.banios}</div>
-                  <div className="stat-label">Baños completos</div>
+                  <div className="stat-label">Banios completos</div>
                 </div>
                 <div className="stat-item">
-                  <div className="stat-value text-gold">{property.localComercialM2} m²</div>
+                  <div className="stat-value text-gold">{property.localComercialM2} m2</div>
                   <div className="stat-label">Local comercial</div>
                 </div>
                 <div className="stat-item">
@@ -64,14 +61,13 @@ export default function Overview() {
                 <CheckCircle2 size={18} className="text-gold" /> Inscrito en SUNARP
               </div>
               <div className="trust-badge">
-                <CheckCircle2 size={18} className="text-gold" /> Único propietario
+                <CheckCircle2 size={18} className="text-gold" /> Unico propietario
               </div>
               <div className="trust-badge">
                 <CheckCircle2 size={18} className="text-gold" /> Sin comisiones
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>

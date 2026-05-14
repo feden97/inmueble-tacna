@@ -1,16 +1,16 @@
-import React, { useState, useRef } from 'react';
+﻿import { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import './Gallery.css';
 
 // TODO: reemplazar URLs con fotos reales del inmueble.
 const photos = [
-  "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=800",
-  "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800",
-  "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800",
-  "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800",
-  "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800",
-  "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800"
+  'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=800',
+  'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800',
+  'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800',
+  'https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800',
+  'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800',
+  'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800',
 ];
 
 export default function Gallery() {
@@ -43,6 +43,7 @@ export default function Gallery() {
   const handleTouchStart = (e) => {
     touchStartX.current = e.touches[0].clientX;
   };
+
   const handleTouchEnd = (e) => {
     const delta = touchStartX.current - e.changedTouches[0].clientX;
     if (delta > 80) nextPhoto();
@@ -52,10 +53,9 @@ export default function Gallery() {
   return (
     <section id="galeria" className="section-padding" ref={sectionRef}>
       <div className="container">
-        <h2 className="section-title">Galería</h2>
-        
+        <h2 className="section-title">Galeria</h2>
+
         <div className={`gallery-wrapper ${isVisible ? 'fade-in-up visible' : 'fade-in-up'}`}>
-          {/* Desktop Grid */}
           <div className="hidden-mobile gallery-grid-desktop">
             <div className="gallery-main" onClick={() => openLightbox(0)}>
               <img src={photos[0]} alt="Principal" loading="lazy" />
@@ -66,19 +66,16 @@ export default function Gallery() {
               </div>
               <div className="gallery-sub gallery-more" onClick={() => openLightbox(2)}>
                 <img src={photos[2]} alt="Foto 3" loading="lazy" />
-                <div className="gallery-more-overlay">
-                  Ver todas las fotos →
-                </div>
+                <div className="gallery-more-overlay">Ver todas las fotos -&gt;</div>
               </div>
             </div>
           </div>
 
-          {/* Mobile Carousel */}
           <div className="md:hidden gallery-carousel" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
             <div className="carousel-images" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
               {photos.map((src, i) => (
                 <div key={i} className="carousel-slide" onClick={() => openLightbox(i)}>
-                  <img src={src} alt={`Foto ${i+1}`} loading="lazy" />
+                  <img src={src} alt={`Foto ${i + 1}`} loading="lazy" />
                 </div>
               ))}
             </div>
@@ -97,13 +94,12 @@ export default function Gallery() {
         </div>
       </div>
 
-      {/* Lightbox */}
       {lightboxOpen && (
         <div className="lightbox-overlay" onClick={closeLightbox}>
           <button className="lightbox-close" onClick={closeLightbox} aria-label="Cerrar">
             <X size={32} />
           </button>
-          
+
           <div className="lightbox-counter">
             {currentIndex + 1} / {photos.length}
           </div>
@@ -112,12 +108,12 @@ export default function Gallery() {
             <ChevronLeft size={40} />
           </button>
 
-          <img 
-            src={photos[currentIndex]} 
-            alt={`Foto ${currentIndex + 1}`} 
-            className="lightbox-image" 
-            onClick={(e) => e.stopPropagation()} 
-            onTouchStart={handleTouchStart} 
+          <img
+            src={photos[currentIndex]}
+            alt={`Foto ${currentIndex + 1}`}
+            className="lightbox-image"
+            onClick={e => e.stopPropagation()}
+            onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           />
 

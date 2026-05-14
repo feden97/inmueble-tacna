@@ -1,5 +1,4 @@
-import React from 'react';
-import { property } from '../data';
+﻿import { property } from '../data';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { CheckCircle2, Phone } from 'lucide-react';
 import WhatsAppIcon from './WhatsAppIcon';
@@ -10,7 +9,7 @@ export default function Contact() {
 
   const phoneNumber = property.contactoWhatsapp.replace(/\+/g, '');
   const whatsappText = encodeURIComponent(
-    `Hola, me interesa el inmueble de ${property.distrito} (${property.areaConstruidaM2}m², ${property.precioTexto})`
+    `Hola, me interesa el inmueble de ${property.distrito} (${property.areaConstruidaM2}m2, ${property.precioTexto})`
   );
   const whatsappLink = `https://wa.me/${phoneNumber}?text=${whatsappText}`;
   const phoneLink = `tel:${property.contactoWhatsapp}`;
@@ -35,7 +34,7 @@ export default function Contact() {
               <Phone size={20} /> Llamar directamente
             </a>
 
-            <p className="contact-hours text-center">Respondemos consultas de lunes a sábado</p>
+            <p className="contact-hours text-center">Respondemos consultas de lunes a sabado</p>
 
             <div className="contact-badges">
               <div className="c-badge"><CheckCircle2 size={16} /> Sin comisiones</div>

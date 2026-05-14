@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import WhatsAppIcon from './WhatsAppIcon';
 import { property } from '../data';
 import './Navbar.css';
 
 const navLinks = [
-  { id: 'descripcion', label: 'Descripción' },
+  { id: 'descripcion', label: 'Descripcion' },
   { id: 'detalles', label: 'Detalles' },
-  { id: 'distribucion', label: 'Distribución' },
-  { id: 'galeria', label: 'Galería' },
+  { id: 'distribucion', label: 'Distribucion' },
+  { id: 'galeria', label: 'Galeria' },
   { id: 'mapa', label: 'Mapa' },
-  { id: 'inversion', label: 'Inversión' },
-  { id: 'contacto', label: 'Contacto' }
+  { id: 'inversion', label: 'Inversion' },
+  { id: 'contacto', label: 'Contacto' },
 ];
 
 export default function Navbar() {
@@ -35,7 +35,7 @@ export default function Navbar() {
           setActiveSection(entry.target.id);
         }
       });
-    }, { threshold: 0.3, rootMargin: "-100px 0px -40% 0px" });
+    }, { threshold: 0.3, rootMargin: '-100px 0px -40% 0px' });
 
     document.querySelectorAll('section[id]').forEach(section => {
       observer.observe(section);
@@ -48,7 +48,7 @@ export default function Navbar() {
     setIsMenuOpen(false);
     const element = document.getElementById(id);
     if (element) {
-      const y = element.getBoundingClientRect().top + window.scrollY - 70; // offset for sticky header
+      const y = element.getBoundingClientRect().top + window.scrollY - 70;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
@@ -89,7 +89,6 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Drawer */}
       <div className={`mobile-drawer ${isMenuOpen ? 'open' : ''}`}>
         <div className="drawer-header">
           <div className="navbar-logo">Inmueble en Venta</div>

@@ -180,6 +180,11 @@ body {
   min-height: 44px;
 }
 
+.whatsapp-icon {
+  display: block;
+  flex-shrink: 0;
+}
+
 .btn-primary {
   background-color: var(--bg-dark);
   color: var(--text-white);

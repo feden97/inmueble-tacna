@@ -1,30 +1,8 @@
-// Rutas de transporte público de Tacna que pasan cerca del inmueble
-// Datos reales extraídos del KML oficial (rutastacna.com / Google My Maps)
-// Filtradas matemáticamente por proximidad a -18.037787, -70.256499 (umbral: 800m)
-// Análisis: 28 líneas totales → 13 segmentos dentro de 800m
-
-// Coordenadas cargadas dinámicamente desde nearby_routes.json
-// Importado en TransitMap.jsx
-
-/* 
- * NOMENCLATURA OFICIAL DE RUTASTACNA.COM (Solo para referencia futura):
- * - Ruta 203: Ruta 203 Gregorio Albarracín - Ciudad Nueva
- * - Ruta 01 / 1: Ruta 1 Gregorio Albarracín - Ciudad Nueva
- * - Ruta 300: Ruta 300 Gregorio Albarracín - Cercado
- * - Ruta 14: Ruta 14 Gregorio Albarracín - Cercado
- * - Ruta 11: Ruta 11 Gregorio Albarracín - Cercado
- * - Ruta 10B: Ruta 10B Gregorio Albarracín - Cercado
- * - Ruta 13: Ruta 13 Gregorio Albarracín - Cercado
- * - Ruta B: Ruta B Gregorio Albarracín - Cercado
- * - Ruta 15: Ruta 15 Gregorio Albarracín - Cercado
- * Otras rutas que pasan por el distrito pero a más de 800m del inmueble:
- * Ruta 101, Ruta 102, Ruta 202, Ruta 2B, Ruta 6, Ruta 90.
- */
+﻿// Rutas de transporte publico de Tacna que pasan cerca del inmueble.
+// Datos filtrados por proximidad a -18.037787, -70.256499 (umbral: 800m).
 
 export const PROPERTY_COORDS = [-18.037787, -70.256499];
 
-// Metadatos de estilo y descripción por nombre de ruta
-// Los coords se cargan desde el JSON generado por export_routes.py
 export const ROUTE_META = {
   'Ruta 203 N-S': {
     id: 'R203-NS',
@@ -32,7 +10,7 @@ export const ROUTE_META = {
     color: '#E91E63',
     textColor: '#fff',
     sentido: 'ida',
-    descripcion: 'Centro → Asociación Los Ediles (pasa a 12m del inmueble)',
+    descripcion: 'Centro -> Asociacion Los Ediles (pasa a 12m del inmueble)',
   },
   'Ruta 203 S-N A': {
     id: 'R203-SNA',
@@ -40,7 +18,7 @@ export const ROUTE_META = {
     color: '#F06292',
     textColor: '#fff',
     sentido: 'vuelta',
-    descripcion: 'Asociación Los Ediles → Centro (variante A)',
+    descripcion: 'Asociacion Los Ediles -> Centro (variante A)',
   },
   'Ruta 01 N-S': {
     id: 'R01-NS',
@@ -48,7 +26,7 @@ export const ROUTE_META = {
     color: '#3949AB',
     textColor: '#fff',
     sentido: 'ida',
-    descripcion: 'Centro → sur (pasa a 41m del inmueble)',
+    descripcion: 'Centro -> sur (pasa a 41m del inmueble)',
   },
   'Ruta 01 S-N': {
     id: 'R01-SN',
@@ -56,7 +34,7 @@ export const ROUTE_META = {
     color: '#7986CB',
     textColor: '#fff',
     sentido: 'vuelta',
-    descripcion: 'Sur → Centro (regreso)',
+    descripcion: 'Sur -> Centro (regreso)',
   },
   'Ruta 300 N-S': {
     id: 'R300-NS',
@@ -64,7 +42,7 @@ export const ROUTE_META = {
     color: '#00897B',
     textColor: '#fff',
     sentido: 'ida',
-    descripcion: 'Centro → sur (pasa a 49m del inmueble)',
+    descripcion: 'Centro -> sur (pasa a 49m del inmueble)',
   },
   'Ruta 300 S-N': {
     id: 'R300-SN',
@@ -72,7 +50,7 @@ export const ROUTE_META = {
     color: '#4DB6AC',
     textColor: '#000',
     sentido: 'vuelta',
-    descripcion: 'Sur → Centro (regreso)',
+    descripcion: 'Sur -> Centro (regreso)',
   },
   'Ruta 14': {
     id: 'R14',
@@ -88,7 +66,7 @@ export const ROUTE_META = {
     color: '#8E24AA',
     textColor: '#fff',
     sentido: 'vuelta',
-    descripcion: 'Sur → Centro (pasa a 304m)',
+    descripcion: 'Sur -> Centro (pasa a 304m)',
   },
   'Ruta 10B': {
     id: 'R10B',
@@ -114,20 +92,12 @@ export const ROUTE_META = {
     sentido: 'ida/vuelta',
     descripcion: 'Ruta B - conecta con centro (473m)',
   },
-  'Ruta 15': {
-    id: 'R15',
-    linea: '15',
-    color: '#2E7D32',
-    textColor: '#fff',
-    sentido: 'ida/vuelta',
-    descripcion: 'Pasa a 503m del inmueble',
-  },
   'Ruta 11 N-S': {
     id: 'R11-NS',
     linea: '11',
     color: '#AB47BC',
     textColor: '#fff',
     sentido: 'ida',
-    descripcion: 'Centro → Sur (pasa a 583m)',
+    descripcion: 'Centro -> Sur (pasa a 583m)',
   },
 };
