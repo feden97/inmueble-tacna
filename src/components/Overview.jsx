@@ -1,4 +1,4 @@
-﻿import { property } from '../data';
+import { property } from '../data';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { CheckCircle2, Lightbulb } from 'lucide-react';
 import './Overview.css';
@@ -18,12 +18,6 @@ export default function Overview() {
               ))}
             </div>
 
-            <div className="comparative-banner">
-              <Lightbulb size={22} className="bulb-icon" />
-              <p>
-                El precio/m2 de este inmueble (<strong>USD {property.precioPorM2}/m2</strong>) esta en linea con el mercado de {property.distrito} (rango: $518-$620/m2).
-              </p>
-            </div>
           </div>
 
           <div className="overview-sidebar">
