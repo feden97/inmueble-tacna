@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import WhatsAppIcon from './WhatsAppIcon';
 import { property } from '../data';
@@ -35,7 +35,7 @@ export default function Navbar() {
           setActiveSection(entry.target.id);
         }
       });
-    }, { threshold: 0.3, rootMargin: '-100px 0px -40% 0px' });
+    }, { threshold: 0.1, rootMargin: '-120px 0px -50% 0px' });
 
     document.querySelectorAll('section[id]').forEach(section => {
       observer.observe(section);

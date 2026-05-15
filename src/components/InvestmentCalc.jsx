@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { property } from '../data';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import './InvestmentCalc.css';
@@ -37,11 +37,11 @@ function formatPen(value) {
 
 export default function InvestmentCalc() {
   const [ref, isVisible] = useIntersectionObserver({ triggerOnce: true });
-  const [rentPrice, setRentPrice] = useState(400);
-  const [commercialRent, setCommercialRent] = useState(0);
+  const [rentPrice, setRentPrice] = useState(250);
+  const [commercialRent, setCommercialRent] = useState(1200);
   const [exchangeRateInput, setExchangeRateInput] = useState('3,50');
-  const [exchangeSource, setExchangeSource] = useState('Hardcodeado');
-  const [rooms, setRooms] = useState(12);
+  const [exchangeSource, setExchangeSource] = useState('Fijo');
+  const [rooms, setRooms] = useState(15);
 
   useEffect(() => {
     let cancelled = false;
@@ -57,12 +57,12 @@ export default function InvestmentCalc() {
 
         if (!cancelled) {
           setExchangeRateInput(penRate.toFixed(2).replace('.', ','));
-          setExchangeSource(`API (${data?.time_last_update_utc || 'actual'})`);
+          setExchangeSource(`Actualizado ${data?.time_last_update_utc || ''}`);
         }
       } catch {
         if (!cancelled) {
           setExchangeRateInput('3,50');
-          setExchangeSource('Hardcodeado (fallback)');
+          setExchangeSource('Fijo');
         }
       }
     }
@@ -151,9 +151,6 @@ export default function InvestmentCalc() {
                     }
                   }}
                 />
-                <small className="text-secondary" style={{ fontSize: '0.78rem' }}>
-                  Fuente: {exchangeSource}. Si falla API, usa 3,50.
-                </small>
               </div>
 
               <div className="control-group">
@@ -208,7 +205,7 @@ export default function InvestmentCalc() {
           </div>
 
           <p className="calc-note">
-            * Calculo referencial. No incluye gastos operativos, impuestos, tipo de cambio ni vacancia.
+            * Cálculo referencial.
           </p>
         </div>
       </div>
