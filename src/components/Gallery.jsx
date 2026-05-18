@@ -53,7 +53,7 @@ export default function Gallery() {
   return (
     <section id="galeria" className="section-padding" ref={sectionRef}>
       <div className="container">
-        <h2 className="section-title">Galeria</h2>
+        <h2 className="section-title">Galería</h2>
 
         <div className={`gallery-wrapper ${isVisible ? 'fade-in-up visible' : 'fade-in-up'}`}>
           <div className="hidden-mobile gallery-grid-desktop">

@@ -1,6 +1,6 @@
 import { property } from '../data';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
-import { CheckCircle2, Lightbulb } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import './Overview.css';
 
 export default function Overview() {
@@ -11,7 +11,7 @@ export default function Overview() {
       <div className="container">
         <div className={`overview-grid ${isVisible ? 'fade-in-up visible' : 'fade-in-up'}`}>
           <div className="overview-text">
-            <h2 className="section-title">Descripcion</h2>
+            <h2 className="section-title">Descripción</h2>
             <div className="overview-description">
               {property.descripcionCompleta.split('\n\n').map((paragraph, idx) => (
                 <p key={idx}>{paragraph}</p>
@@ -25,11 +25,11 @@ export default function Overview() {
               <div className="stats-grid">
                 <div className="stat-item">
                   <div className="stat-value text-gold">{property.areaConstruidaM2} m2</div>
-                  <div className="stat-label">Area construida</div>
+                  <div className="stat-label">Área construida</div>
                 </div>
                 <div className="stat-item">
                   <div className="stat-value text-gold">{property.areaTerrenoM2} m2</div>
-                  <div className="stat-label">Area de terreno</div>
+                  <div className="stat-label">Área de terreno</div>
                 </div>
                 <div className="stat-item">
                   <div className="stat-value text-gold">{property.habitaciones}</div>
@@ -37,7 +37,7 @@ export default function Overview() {
                 </div>
                 <div className="stat-item">
                   <div className="stat-value text-gold">{property.banios}</div>
-                  <div className="stat-label">Banios completos</div>
+                  <div className="stat-label">Baños completos</div>
                 </div>
                 <div className="stat-item">
                   <div className="stat-value text-gold">{property.localComercialM2} m2</div>
@@ -45,7 +45,7 @@ export default function Overview() {
                 </div>
                 <div className="stat-item">
                   <div className="stat-value text-gold">{property.pisos}</div>
-                  <div className="stat-label">Pisos + Azotea</div>
+                  <div className="stat-label">Niveles + azotea</div>
                 </div>
               </div>
             </div>
@@ -55,7 +55,7 @@ export default function Overview() {
                 <CheckCircle2 size={18} className="text-gold" /> Inscrito en SUNARP
               </div>
               <div className="trust-badge">
-                <CheckCircle2 size={18} className="text-gold" /> Unico propietario
+                <CheckCircle2 size={18} className="text-gold" /> Único propietario
               </div>
               <div className="trust-badge">
                 <CheckCircle2 size={18} className="text-gold" /> Sin comisiones

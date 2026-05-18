@@ -36,10 +36,10 @@ export default function Distribution() {
     <section id="distribucion" className="section-padding bg-light" ref={ref}>
       <div className="container">
         <h2 className={`section-title text-center ${isVisible ? 'fade-in-up visible' : 'fade-in-up'}`}>
-          Distribucion por Pisos
+          Distribución por niveles
         </h2>
         <p className={`dist-subtitle text-center ${isVisible ? 'fade-in-up visible' : 'fade-in-up'}`}>
-          {property.areaConstruidaM2} m2 construidos en {property.pisos} pisos + azotea
+          {property.areaConstruidaM2} m2 construidos en {property.pisos} niveles + azotea
         </p>
 
         <div className="pisos-list">

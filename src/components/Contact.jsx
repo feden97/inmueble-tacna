@@ -34,7 +34,7 @@ export default function Contact() {
               <Phone size={20} /> Llamar directamente
             </a>
 
-            <p className="contact-hours text-center">Respondemos consultas de lunes a sabado</p>
+            <p className="contact-hours text-center">Respondemos consultas de lunes a sábado</p>
 
             <div className="contact-badges">
               <div className="c-badge"><CheckCircle2 size={16} /> Sin comisiones</div>

@@ -23,18 +23,18 @@ export default function Footer() {
             <p className="footer-desc">
               {property.distrito}<br />
               {property.precioTexto}<br />
-              Analisis de mercado {currentYear}
+              Análisis de mercado {currentYear}
             </p>
           </div>
 
           <div className="footer-col">
             <h3 className="footer-title">Secciones</h3>
             <ul className="footer-links">
-              <li><button onClick={() => scrollToSection('descripcion')}>Descripcion</button></li>
-              <li><button onClick={() => scrollToSection('distribucion')}>Distribucion</button></li>
-              <li><button onClick={() => scrollToSection('galeria')}>Galeria</button></li>
+              <li><button onClick={() => scrollToSection('descripcion')}>Descripción</button></li>
+              <li><button onClick={() => scrollToSection('distribucion')}>Distribución</button></li>
+              <li><button onClick={() => scrollToSection('galeria')}>Galería</button></li>
               <li><button onClick={() => scrollToSection('mapa')}>Mapa</button></li>
-              <li><button onClick={() => scrollToSection('inversion')}>Inversion</button></li>
+              <li><button onClick={() => scrollToSection('inversion')}>Inversión</button></li>
             </ul>
           </div>
 

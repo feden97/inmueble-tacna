@@ -5,12 +5,12 @@ import { property } from '../data';
 import './Navbar.css';
 
 const navLinks = [
-  { id: 'descripcion', label: 'Descripcion' },
+  { id: 'descripcion', label: 'Descripción' },
   { id: 'detalles', label: 'Detalles' },
-  { id: 'distribucion', label: 'Distribucion' },
-  { id: 'galeria', label: 'Galeria' },
+  { id: 'distribucion', label: 'Distribución' },
+  { id: 'galeria', label: 'Galería' },
   { id: 'mapa', label: 'Mapa' },
-  { id: 'inversion', label: 'Inversion' },
+  { id: 'inversion', label: 'Inversión' },
   { id: 'contacto', label: 'Contacto' },
 ];
 
@@ -82,7 +82,7 @@ export default function Navbar() {
             <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="nav-icon-mobile md:hidden text-gold">
               <WhatsAppIcon size={24} />
             </a>
-            <button className="menu-btn md:hidden" onClick={() => setIsMenuOpen(true)}>
+            <button className="menu-btn md:hidden" onClick={() => setIsMenuOpen(true)} aria-label="Abrir menú">
               <Menu size={28} />
             </button>
           </div>
@@ -92,7 +92,7 @@ export default function Navbar() {
       <div className={`mobile-drawer ${isMenuOpen ? 'open' : ''}`}>
         <div className="drawer-header">
           <div className="navbar-logo">Inmueble en Venta</div>
-          <button className="close-btn" onClick={() => setIsMenuOpen(false)}>
+          <button className="close-btn" onClick={() => setIsMenuOpen(false)} aria-label="Cerrar menú">
             <X size={28} />
           </button>
         </div>

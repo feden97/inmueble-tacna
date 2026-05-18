@@ -5,9 +5,9 @@ import './Hero.css';
 const stats = [
   { value: `${property.areaConstruidaM2} m2`, label: 'Construidos' },
   { value: property.habitaciones, label: 'Habitaciones' },
-  { value: property.banios, label: 'Banios' },
+  { value: property.banios, label: 'Baños' },
   { value: `${property.localComercialM2} m2`, label: 'Local comercial' },
-  { value: property.pisos, label: 'Pisos' },
+  { value: property.pisos, label: 'Niveles' },
 ];
 
 export default function Hero() {

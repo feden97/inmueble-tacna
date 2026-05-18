@@ -9,7 +9,7 @@ export default function Features() {
   return (
     <section id="detalles" className="section-padding bg-light" ref={ref}>
       <div className="container">
-        <h2 className="section-title text-center">Caracteristicas</h2>
+        <h2 className="section-title text-center">Características</h2>
 
         <div className={`features-grid ${isVisible ? 'visible' : ''}`}>
           {caracteristicas.map((item, index) => (

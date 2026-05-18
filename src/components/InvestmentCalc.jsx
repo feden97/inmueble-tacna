@@ -40,7 +40,7 @@ export default function InvestmentCalc() {
   const [rentPrice, setRentPrice] = useState(250);
   const [commercialRent, setCommercialRent] = useState(1200);
   const [exchangeRateInput, setExchangeRateInput] = useState('3,50');
-  const [exchangeSource, setExchangeSource] = useState('Fijo');
+  const [, setExchangeSource] = useState('Fijo');
   const [rooms, setRooms] = useState(15);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export default function InvestmentCalc() {
 
         const data = await response.json();
         const penRate = Number(data?.rates?.PEN);
-        if (!Number.isFinite(penRate) || penRate <= 0) throw new Error('Respuesta invalida');
+        if (!Number.isFinite(penRate) || penRate <= 0) throw new Error('Respuesta inválida');
 
         if (!cancelled) {
           setExchangeRateInput(penRate.toFixed(2).replace('.', ','));
@@ -95,17 +95,17 @@ export default function InvestmentCalc() {
         <div className={`calc-wrapper ${isVisible ? 'fade-in-up visible' : 'fade-in-up'}`}>
           <div className="text-center" style={{ marginBottom: '2rem' }}>
             <h2 className="section-title" style={{ color: 'white' }}>
-              Potencial de Inversion
+              Potencial de inversión
             </h2>
             <p className="calc-intro">
-              Calcula el retorno estimado en soles (PEN) para renta por habitaciones y local comercial.
+              Simula ingresos brutos referenciales en soles (PEN) por renta de habitaciones y local comercial.
             </p>
           </div>
 
           <div className="calc-grid">
             <div className="calc-controls card" style={{ color: 'var(--text-primary)' }}>
               <div className="control-group">
-                <label>Alquiler por habitacion / mes (S/.)</label>
+                <label>Alquiler por habitación / mes (S/.)</label>
                 <input
                   id="rent-price"
                   className="calc-input"
@@ -174,38 +174,38 @@ export default function InvestmentCalc() {
 
             <div className="calc-results">
               <div className="result-card">
-                <div className="result-label">Precio del Inmueble (PEN)</div>
+                <div className="result-label">Precio del inmueble (PEN)</div>
                 <div className="result-value text-gold">S/. {formatPen(propertyPricePen)}</div>
               </div>
               <div className="result-card">
-                <div className="result-label">Ingreso Mensual Habitaciones</div>
+                <div className="result-label">Ingreso mensual habitaciones</div>
                 <div className="result-value text-gold">S/. {formatPen(roomMonthlyIncome)}</div>
               </div>
               <div className="result-card">
-                <div className="result-label">Ingreso Mensual Local</div>
+                <div className="result-label">Ingreso mensual local</div>
                 <div className="result-value text-gold">S/. {formatPen(commercialRent)}</div>
               </div>
               <div className="result-card">
-                <div className="result-label">Ingreso Mensual Bruto Total</div>
+                <div className="result-label">Ingreso mensual bruto total</div>
                 <div className="result-value text-gold">S/. {formatPen(monthlyIncome)}</div>
               </div>
               <div className="result-card">
-                <div className="result-label">Ingreso Anual Bruto</div>
+                <div className="result-label">Ingreso anual bruto</div>
                 <div className="result-value text-gold">S/. {formatPen(annualIncome)}</div>
               </div>
               <div className="result-card">
-                <div className="result-label">ROI Anual Estimado</div>
+                <div className="result-label">ROI bruto referencial</div>
                 <div className="result-value text-gold">{roi === null ? '-' : `${roi}%`}</div>
               </div>
               <div className="result-card">
-                <div className="result-label">Recupero Estimado</div>
-                <div className="result-value text-gold">{recoveryYears === null ? '-' : `${recoveryYears} anios`}</div>
+                <div className="result-label">Recupero bruto referencial</div>
+                <div className="result-value text-gold">{recoveryYears === null ? '-' : `${recoveryYears} años`}</div>
               </div>
             </div>
           </div>
 
           <p className="calc-note">
-            * Cálculo referencial.
+            * Cálculo referencial bruto. No incluye vacancia, mantenimiento, impuestos ni gastos operativos.
           </p>
         </div>
       </div>

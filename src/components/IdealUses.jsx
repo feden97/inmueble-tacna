@@ -11,7 +11,7 @@ export default function IdealUses() {
   return (
     <section className="section-padding" ref={ref}>
       <div className="container">
-        <h2 className="section-title text-center">Para que es ideal?</h2>
+        <h2 className="section-title text-center">¿Para qué es ideal?</h2>
 
         <div className={`uses-container ${isVisible ? 'visible' : ''}`}>
           {usosIdeales.map((uso, index) => {

@@ -49,9 +49,9 @@ export default function TransitMap() {
   return (
     <section id="mapa" className="section-padding bg-light">
       <div className="container">
-        <h2 className="section-title text-center">Ubicacion y Transporte</h2>
+        <h2 className="section-title text-center">Ubicación y transporte</h2>
         <p className="map-subtitle text-center">
-          {groupedArray.length} lineas de transporte pasan cerca. Selecciona una para ver su trayecto
+          {groupedArray.length} líneas de transporte pasan cerca. Selecciona una para ver su trayecto
         </p>
 
         <div className="transit-layout">
