@@ -18,7 +18,7 @@ export const property = {
   construccion: 'Antisísmica con planos de arquitectura e ingeniería',
   agua: 'Servicio 24 h - 2 tanques de 1,000 L + reservorio subterráneo de 2,000 L',
   estado: 'Inscrito en SUNARP - único propietario - papeles al día',
-  contactoWhatsapp: '+51991463029',
+  contactoWhatsapp: '+51947688502',
   contactoNombre: 'Propietario directo',
   descripcionCompleta: `Propiedad de uso mixto en Gregorio Albarracín, Tacna: 384 m² construidos sobre 120.5 m² de terreno. El inmueble destaca por su excelente visibilidad y exposición visual directa desde la transitada Av. Los Poetas (a pesar de estar ubicado físicamente sobre la calle lateral Carlos Armando Laura), lo que le otorga a su fachada de 4 niveles un gran impacto visual.\n\nPor su ubicación a pasos de la Av. La Cultura, a pasos del Polideportivo Los Ediles y con vista directa desde Av. Los Poetas, es una alternativa muy atractiva para renta por habitaciones, hostal, consultorios, oficinas, academia o negocio familiar.\n\nLa propiedad está distribuida en 3 niveles completos más un departamento independiente con terraza amplia en el cuarto nivel, y azotea. Cuenta con un local comercial en el primer piso que se beneficia directamente de esta alta visibilidad. Tiene además 16 habitaciones, 8 baños completos, patio/lavandería y azotea. La estructura es antisísmica y cuenta con planos de arquitectura e ingeniería por nivel.\n\nServicio de agua 24 horas mediante dos tanques elevados de 1,000 litros y reservorio subterráneo de 2,000 litros. Documentación en regla: inscrito en SUNARP, único propietario, listo para escritura pública y trato directo con el propietario, sin intermediarios.`,
 };

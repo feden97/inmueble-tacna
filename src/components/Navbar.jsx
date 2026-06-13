@@ -79,9 +79,6 @@ export default function Navbar() {
             <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm hidden-mobile">
               <WhatsAppIcon size={18} /> WhatsApp
             </a>
-            <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="nav-icon-mobile md:hidden text-gold">
-              <WhatsAppIcon size={24} />
-            </a>
             <button className="menu-btn md:hidden" onClick={() => setIsMenuOpen(true)} aria-label="Abrir menú">
               <Menu size={28} />
             </button>
