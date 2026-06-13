@@ -1,0 +1,55 @@
+.floating-whatsapp {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #25d366;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 4px 14px rgba(37, 211, 102, 0.4),
+    0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              box-shadow 0.3s ease;
+  animation: floatingPulse 3s infinite ease-in-out;
+  /* Override the WhatsApp icon's gradient circle with white icon on green bg */
+  color: white;
+}
+
+.floating-whatsapp:hover {
+  transform: scale(1.1);
+  box-shadow:
+    0 6px 20px rgba(37, 211, 102, 0.5),
+    0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.floating-whatsapp:active {
+  transform: scale(0.95);
+}
+
+@keyframes floatingPulse {
+  0%, 100% {
+    box-shadow:
+      0 4px 14px rgba(37, 211, 102, 0.4),
+      0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    box-shadow:
+      0 4px 14px rgba(37, 211, 102, 0.4),
+      0 2px 6px rgba(0, 0, 0, 0.15),
+      0 0 0 8px rgba(37, 211, 102, 0.12);
+  }
+}
+
+@media (max-width: 767px) {
+  .floating-whatsapp {
+    bottom: 18px;
+    right: 18px;
+    width: 56px;
+    height: 56px;
+  }
+}

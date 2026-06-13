@@ -51,7 +51,7 @@ export default function TransitMap() {
       <div className="container">
         <h2 className="section-title text-center">Ubicación y transporte</h2>
         <p className="map-subtitle text-center">
-          {groupedArray.length} líneas de transporte pasan cerca. Selecciona una para ver su trayecto
+          {groupedArray.length} líneas de transporte pasan cerca. Selecciona una para ver su trayecto (rutas referenciales)
         </p>
 
         <div className="transit-layout">

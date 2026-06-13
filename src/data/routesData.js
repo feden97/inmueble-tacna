@@ -1,7 +1,7 @@
-﻿// Rutas de transporte publico de Tacna que pasan cerca del inmueble.
+// Rutas de transporte publico de Tacna que pasan cerca del inmueble.
 // Datos filtrados por proximidad a -18.037787, -70.256499 (umbral: 800m).
 
-export const PROPERTY_COORDS = [-18.037787, -70.256499];
+export const PROPERTY_COORDS = [-18.037764, -70.256437];
 
 export const ROUTE_META = {
   'Ruta 203 N-S': {

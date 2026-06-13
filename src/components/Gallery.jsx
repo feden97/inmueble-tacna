@@ -1,43 +1,46 @@
-﻿import { useState, useRef } from 'react';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { ChevronLeft, ChevronRight, X, Play, ZoomIn, ZoomOut } from 'lucide-react';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
+import { galleryMedia } from '../data';
 import './Gallery.css';
-
-// TODO: reemplazar URLs con fotos reales del inmueble.
-const photos = [
-  'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=800',
-  'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800',
-  'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800',
-  'https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800',
-  'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800',
-  'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800',
-];
 
 export default function Gallery() {
   const [sectionRef, isVisible] = useIntersectionObserver({ triggerOnce: true });
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isZoomed, setIsZoomed] = useState(false);
   const touchStartX = useRef(0);
+
+  const mediaItems = galleryMedia || [];
+  const totalItems = mediaItems.length;
 
   const openLightbox = (index) => {
     setCurrentIndex(index);
     setLightboxOpen(true);
+    setIsZoomed(false);
     document.body.style.overflow = 'hidden';
   };
 
   const closeLightbox = () => {
     setLightboxOpen(false);
+    setIsZoomed(false);
     document.body.style.overflow = 'auto';
   };
 
   const nextPhoto = (e) => {
     e?.stopPropagation();
-    setCurrentIndex((prev) => (prev + 1) % photos.length);
+    setIsZoomed(false);
+    if (totalItems > 0) {
+      setCurrentIndex((prev) => (prev + 1) % totalItems);
+    }
   };
 
   const prevPhoto = (e) => {
     e?.stopPropagation();
-    setCurrentIndex((prev) => (prev - 1 + photos.length) % photos.length);
+    setIsZoomed(false);
+    if (totalItems > 0) {
+      setCurrentIndex((prev) => (prev - 1 + totalItems) % totalItems);
+    }
   };
 
   const handleTouchStart = (e) => {
@@ -50,76 +53,214 @@ export default function Gallery() {
     if (delta < -80) prevPhoto();
   };
 
+  if (totalItems === 0) return null;
+
+  // Renderizar miniatura (imagen o primer fotograma de video)
+  const renderThumbnail = (item, index, isLarge = false) => {
+    const isVideo = item.type === 'video';
+    return (
+      <div 
+        className={`gallery-item-wrapper ${isLarge ? 'main-item' : 'sub-item'} ${isVideo ? 'video-item' : ''}`}
+        onClick={() => openLightbox(index)}
+      >
+        {isVideo ? (
+          <>
+            <video 
+              src={item.url} 
+              preload="metadata" 
+              className="gallery-thumbnail-video" 
+              muted 
+              playsInline
+            />
+            <div className="play-button-overlay">
+              <Play size={isLarge ? 48 : 32} fill="currentColor" />
+            </div>
+          </>
+        ) : (
+          <img 
+            src={item.url} 
+            alt={item.alt || `Foto ${index + 1}`} 
+            loading="lazy" 
+            className="gallery-thumbnail-img"
+          />
+        )}
+      </div>
+    );
+  };
+
   return (
     <section id="galeria" className="section-padding" ref={sectionRef}>
       <div className="container">
-        <h2 className="section-title">Galería</h2>
+        <div className="gallery-header">
+          <h2 className="section-title">Galería</h2>
+          <span className="gallery-badge">Fotos reales de la propiedad</span>
+        </div>
 
         <div className={`gallery-wrapper ${isVisible ? 'fade-in-up visible' : 'fade-in-up'}`}>
-          <div className="hidden-mobile gallery-grid-desktop">
-            <div className="gallery-main" onClick={() => openLightbox(0)}>
-              <img src={photos[0]} alt="Principal" loading="lazy" />
-            </div>
-            <div className="gallery-side">
-              <div className="gallery-sub" onClick={() => openLightbox(1)}>
-                <img src={photos[1]} alt="Foto 2" loading="lazy" />
+          
+          {/* Vista de Escritorio */}
+          <div className="hidden-mobile">
+            {totalItems === 1 ? (
+              // Solo 1 imagen
+              <div className="gallery-single-layout">
+                {renderThumbnail(mediaItems[0], 0, true)}
               </div>
-              <div className="gallery-sub gallery-more" onClick={() => openLightbox(2)}>
-                <img src={photos[2]} alt="Foto 3" loading="lazy" />
-                <div className="gallery-more-overlay">Ver todas las fotos -&gt;</div>
+            ) : totalItems === 2 ? (
+              // Exactamente 2 imágenes (Díptico)
+              <div className="gallery-diptych-layout">
+                {renderThumbnail(mediaItems[0], 0, true)}
+                {renderThumbnail(mediaItems[1], 1, true)}
               </div>
-            </div>
+            ) : totalItems === 3 || totalItems === 4 ? (
+              // 3 o 4 imágenes (Tríptico)
+              <div className="gallery-grid-desktop-3">
+                <div className="gallery-main">
+                  {renderThumbnail(mediaItems[0], 0, true)}
+                </div>
+                <div className="gallery-side">
+                  <div className="gallery-sub-container">
+                    {renderThumbnail(mediaItems[1], 1, false)}
+                  </div>
+                  <div className="gallery-sub-container gallery-more">
+                    {renderThumbnail(mediaItems[2], 2, false)}
+                    {totalItems > 3 && (
+                      <div className="gallery-more-overlay" onClick={() => openLightbox(2)}>
+                        <span>Ver todas las fotos (+{totalItems - 3})</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              // 5 o más imágenes (Grid Premium tipo Airbnb de 5 fotos)
+              <div className="gallery-grid-desktop-5">
+                <div className="gallery-grid-item item-0">
+                  {renderThumbnail(mediaItems[0], 0, true)}
+                </div>
+                <div className="gallery-grid-item item-1">
+                  {renderThumbnail(mediaItems[1], 1, false)}
+                </div>
+                <div className="gallery-grid-item item-2">
+                  {renderThumbnail(mediaItems[2], 2, false)}
+                </div>
+                <div className="gallery-grid-item item-3">
+                  {renderThumbnail(mediaItems[3], 3, false)}
+                </div>
+                <div className="gallery-grid-item gallery-more item-4">
+                  {renderThumbnail(mediaItems[4], 4, false)}
+                  {totalItems > 5 && (
+                    <div className="gallery-more-overlay" onClick={() => openLightbox(4)}>
+                      <span>Ver más fotos (+{totalItems - 5})</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
+          {/* Vista Móvil (Carrusel) */}
           <div className="md:hidden gallery-carousel" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
             <div className="carousel-images" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-              {photos.map((src, i) => (
+              {mediaItems.map((item, i) => (
                 <div key={i} className="carousel-slide" onClick={() => openLightbox(i)}>
-                  <img src={src} alt={`Foto ${i + 1}`} loading="lazy" />
+                  {item.type === 'video' ? (
+                    <div className="carousel-video-slide">
+                      <video src={item.url} preload="metadata" muted playsInline />
+                      <div className="play-button-overlay">
+                        <Play size={40} fill="currentColor" />
+                      </div>
+                    </div>
+                  ) : (
+                    <img src={item.url} alt={item.alt || `Foto ${i + 1}`} loading="lazy" />
+                  )}
                 </div>
               ))}
             </div>
-            <button className="carousel-btn left" onClick={prevPhoto} aria-label="Foto anterior">
-              <ChevronLeft size={24} />
-            </button>
-            <button className="carousel-btn right" onClick={nextPhoto} aria-label="Foto siguiente">
-              <ChevronRight size={24} />
-            </button>
-            <div className="carousel-dots">
-              {photos.map((_, i) => (
-                <div key={i} className={`dot ${currentIndex === i ? 'active' : ''}`} onClick={() => setCurrentIndex(i)} />
-              ))}
-            </div>
+            {totalItems > 1 && (
+              <>
+                <button className="carousel-btn left" onClick={prevPhoto} aria-label="Anterior">
+                  <ChevronLeft size={24} />
+                </button>
+                <button className="carousel-btn right" onClick={nextPhoto} aria-label="Siguiente">
+                  <ChevronRight size={24} />
+                </button>
+                {totalItems <= 10 ? (
+                  <div className="carousel-dots">
+                    {mediaItems.map((_, i) => (
+                      <div key={i} className={`dot ${currentIndex === i ? 'active' : ''}`} onClick={(e) => { e.stopPropagation(); setCurrentIndex(i); }} />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="carousel-counter-mobile">
+                    {currentIndex + 1} / {totalItems}
+                  </div>
+                )}
+              </>
+            )}
           </div>
+
         </div>
       </div>
 
+      {/* Lightbox / Visor de pantalla completa */}
       {lightboxOpen && (
         <div className="lightbox-overlay" onClick={closeLightbox}>
           <button className="lightbox-close" onClick={closeLightbox} aria-label="Cerrar">
             <X size={32} />
           </button>
 
+          {mediaItems[currentIndex].type !== 'video' && (
+            <button 
+              className="lightbox-zoom-toggle" 
+              onClick={(e) => { e.stopPropagation(); setIsZoomed(!isZoomed); }} 
+              aria-label={isZoomed ? "Reducir" : "Ampliar"}
+            >
+              {isZoomed ? <ZoomOut size={24} /> : <ZoomIn size={24} />}
+            </button>
+          )}
+
           <div className="lightbox-counter">
-            {currentIndex + 1} / {photos.length}
+            {currentIndex + 1} / {totalItems}
           </div>
 
-          <button className="lightbox-nav left" onClick={prevPhoto} aria-label="Anterior">
-            <ChevronLeft size={40} />
-          </button>
+          <div className="lightbox-caption">
+            <span>{mediaItems[currentIndex].alt}</span>
+            {mediaItems[currentIndex].type !== 'video' && (
+              <span className="zoom-hint"> — Toca la imagen para {isZoomed ? 'reducir' : 'ampliar'}</span>
+            )}
+          </div>
 
-          <img
-            src={photos[currentIndex]}
-            alt={`Foto ${currentIndex + 1}`}
-            className="lightbox-image"
-            onClick={e => e.stopPropagation()}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-          />
+          {totalItems > 1 && (
+            <>
+              <button className="lightbox-nav left" onClick={prevPhoto} aria-label="Anterior">
+                <ChevronLeft size={40} />
+              </button>
+              <button className="lightbox-nav right" onClick={nextPhoto} aria-label="Siguiente">
+                <ChevronRight size={40} />
+              </button>
+            </>
+          )}
 
-          <button className="lightbox-nav right" onClick={nextPhoto} aria-label="Siguiente">
-            <ChevronRight size={40} />
-          </button>
+          <div className={`lightbox-content ${isZoomed ? 'zoomed' : ''}`} onClick={(e) => { e.stopPropagation(); if (isZoomed) setIsZoomed(false); }}>
+            {mediaItems[currentIndex].type === 'video' ? (
+              <video
+                src={mediaItems[currentIndex].url}
+                controls
+                autoPlay
+                className="lightbox-video"
+                playsInline
+              />
+            ) : (
+              <img
+                src={mediaItems[currentIndex].url}
+                alt={mediaItems[currentIndex].alt || `Foto ${currentIndex + 1}`}
+                className={`lightbox-image ${isZoomed ? 'zoomed' : ''}`}
+                onClick={(e) => { e.stopPropagation(); setIsZoomed(!isZoomed); }}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+              />
+            )}
+          </div>
         </div>
       )}
     </section>

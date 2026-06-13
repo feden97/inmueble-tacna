@@ -1,12 +1,12 @@
-﻿import { ChevronDown } from 'lucide-react';
-import { property } from '../data';
+import { ChevronDown } from 'lucide-react';
+import { property, galleryMedia } from '../data';
 import './Hero.css';
 
 const stats = [
-  { value: `${property.areaConstruidaM2} m2`, label: 'Construidos' },
+  { value: `${property.areaConstruidaM2} m²`, label: 'Construidos' },
   { value: property.habitaciones, label: 'Habitaciones' },
   { value: property.banios, label: 'Baños' },
-  { value: `${property.localComercialM2} m2`, label: 'Local comercial' },
+  { value: 'Sí', label: 'Local comercial' },
   { value: property.pisos, label: 'Niveles' },
 ];
 
@@ -18,8 +18,15 @@ export default function Hero() {
     }
   };
 
+  // Buscar la primera imagen real disponible
+  const heroImage = galleryMedia.find(item => item.type === 'image')?.url || 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&q=80';
+
   return (
-    <section id="hero" className="hero-container">
+    <section 
+      id="hero" 
+      className="hero-container"
+      style={{ backgroundImage: `url(${heroImage})` }}
+    >
       <div className="hero-overlay"></div>
 
       <div className="hero-content fade-in-up visible">

@@ -7,9 +7,9 @@ import IdealUses from './components/IdealUses';
 import Distribution from './components/Distribution';
 import Gallery from './components/Gallery';
 import TransitMap from './components/TransitMap';
-import InvestmentCalc from './components/InvestmentCalc';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import FloatingWhatsApp from './components/FloatingWhatsApp';
 import './App.css';
 
 function App() {
@@ -25,10 +25,10 @@ function App() {
           <Distribution />
           <Gallery />
           <TransitMap />
-          <InvestmentCalc />
           <Contact />
         </main>
         <Footer />
+        <FloatingWhatsApp />
       </div>
     </HashRouter>
   );

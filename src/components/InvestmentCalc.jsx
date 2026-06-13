@@ -1,6 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { property } from '../data';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
+import { 
+  Coins, 
+  Home, 
+  Building2, 
+  Percent, 
+  Calendar, 
+  Info 
+} from 'lucide-react';
 import './InvestmentCalc.css';
 
 const penFormatter = new Intl.NumberFormat('es-PE', {
@@ -11,7 +19,7 @@ const penFormatter = new Intl.NumberFormat('es-PE', {
 function parseExchangeRate(input) {
   if (!input) return 0;
 
-  const cleaned = input.replace(/\s/g, '');
+  const cleaned = input.toString().replace(/\s/g, '');
   const hasComma = cleaned.includes(',');
   const hasDot = cleaned.includes('.');
 
@@ -38,10 +46,12 @@ function formatPen(value) {
 export default function InvestmentCalc() {
   const [ref, isVisible] = useIntersectionObserver({ triggerOnce: true });
   const [rentPrice, setRentPrice] = useState(250);
-  const [commercialRent, setCommercialRent] = useState(1200);
-  const [exchangeRateInput, setExchangeRateInput] = useState('3,50');
-  const [, setExchangeSource] = useState('Fijo');
+  const [commercialRent, setCommercialRent] = useState(500);
+  const [exchangeRateInput, setExchangeRateInput] = useState('3.75');
+  const [exchangeSource, setExchangeSource] = useState('Fijo');
   const [rooms, setRooms] = useState(15);
+  const [customRentMode, setCustomRentMode] = useState(false);
+  const [customCommercialMode, setCustomCommercialMode] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -57,11 +67,11 @@ export default function InvestmentCalc() {
 
         if (!cancelled) {
           setExchangeRateInput(penRate.toFixed(2).replace('.', ','));
-          setExchangeSource(`Actualizado ${data?.time_last_update_utc || ''}`);
+          setExchangeSource(`Online ${data?.time_last_update_utc ? new Date(data.time_last_update_utc).toLocaleDateString('es-PE') : ''}`);
         }
       } catch {
         if (!cancelled) {
-          setExchangeRateInput('3,50');
+          setExchangeRateInput('3.75');
           setExchangeSource('Fijo');
         }
       }
@@ -89,74 +99,38 @@ export default function InvestmentCalc() {
     ? (propertyPricePen / annualIncome).toFixed(1)
     : null;
 
+  const roomsPct = monthlyIncome > 0 ? (roomMonthlyIncome / monthlyIncome) * 100 : 0;
+  const localPct = monthlyIncome > 0 ? (commercialRent / monthlyIncome) * 100 : 0;
+
+  const rentPresets = [200, 250, 300, 350];
+  const commercialPresets = [400, 500, 750, 1000];
+
   return (
     <section id="inversion" className="section-padding bg-blue" ref={ref}>
       <div className="container">
         <div className={`calc-wrapper ${isVisible ? 'fade-in-up visible' : 'fade-in-up'}`}>
-          <div className="text-center" style={{ marginBottom: '2rem' }}>
+          <div className="text-center" style={{ marginBottom: '2.5rem' }}>
             <h2 className="section-title" style={{ color: 'white' }}>
-              Potencial de inversión
+              Simulador de Rentabilidad
             </h2>
             <p className="calc-intro">
-              Simula ingresos brutos referenciales en soles (PEN) por renta de habitaciones y local comercial.
+              Explora la proyección de ingresos mensuales y anuales estimando la ocupación de habitaciones y la renta del local comercial.
             </p>
           </div>
 
           <div className="calc-grid">
-            <div className="calc-controls card" style={{ color: 'var(--text-primary)' }}>
+            {/* Control Panel */}
+            <div className="calc-controls card">
+              {/* Rooms Section */}
               <div className="control-group">
-                <label>Alquiler por habitación / mes (S/.)</label>
-                <input
-                  id="rent-price"
-                  className="calc-input"
-                  type="text"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  value={rentPrice}
-                  onChange={(e) => {
-                    const val = e.target.value.replace(/[^0-9]/g, '');
-                    setRentPrice(val === '' ? 0 : Number(val));
-                  }}
-                />
-              </div>
-
-              <div className="control-group">
-                <label>Alquiler local comercial / mes (S/.)</label>
-                <input
-                  id="commercial-rent"
-                  className="calc-input"
-                  type="text"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  value={commercialRent}
-                  onChange={(e) => {
-                    const val = e.target.value.replace(/[^0-9]/g, '');
-                    setCommercialRent(val === '' ? 0 : Number(val));
-                  }}
-                />
-              </div>
-
-              <div className="control-group">
-                <label>Tipo de cambio (USD a PEN)</label>
-                <input
-                  id="exchange-rate"
-                  className="calc-input"
-                  type="text"
-                  inputMode="decimal"
-                  value={exchangeRateInput}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    if (/^\d*([.,]\d{0,2})?$/.test(val)) {
-                      setExchangeRateInput(val);
-                    }
-                  }}
-                />
-              </div>
-
-              <div className="control-group">
-                <label>Habitaciones alquiladas</label>
+                <div className="flex justify-between items-center">
+                  <label className="group-title">
+                    <Home size={18} className="icon-gold" /> Habitaciones Alquiladas
+                  </label>
+                  <span className="badge-value-gold">{rooms} / {maxRooms}</span>
+                </div>
+                
                 <div className="slider-row">
-                  <span className="slider-label">1</span>
                   <input
                     id="rooms-slider"
                     type="range"
@@ -166,46 +140,245 @@ export default function InvestmentCalc() {
                     onChange={e => setRooms(Number(e.target.value))}
                     className="calc-slider"
                   />
-                  <span className="slider-label">{maxRooms}</span>
-                  <div className="slider-value-badge">{rooms}</div>
+                </div>
+
+                {/* Rooms Grid Visualizer */}
+                <div className="visual-grid-wrapper">
+                  <span className="grid-helper-text">Visualización de las 16 habitaciones de la propiedad (toca una para cambiar):</span>
+                  <div className="room-grid">
+                    {Array.from({ length: maxRooms }, (_, i) => {
+                      const roomNum = i + 1;
+                      const isActive = roomNum <= rooms;
+                      return (
+                        <button
+                          key={roomNum}
+                          onClick={() => setRooms(roomNum)}
+                          className={`room-node ${isActive ? 'active' : ''}`}
+                          aria-label={`Seleccionar ${roomNum} habitaciones`}
+                        >
+                          {roomNum}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Price per Room Section */}
+              <div className="control-group">
+                <label className="group-title">
+                  <Coins size={18} className="icon-gold" /> Alquiler Promedio por Habitación
+                </label>
+                <div className="pill-group">
+                  {rentPresets.map(p => (
+                    <button
+                      key={p}
+                      onClick={() => { setRentPrice(p); setCustomRentMode(false); }}
+                      className={`pill-btn ${rentPrice === p && !customRentMode ? 'active' : ''}`}
+                    >
+                      S/. {p} {p === 250 ? '(Ref.)' : ''}
+                    </button>
+                  ))}
+                  {customRentMode ? (
+                    <div className="custom-input-wrapper">
+                      <span className="custom-input-prefix">S/.</span>
+                      <input
+                        type="number"
+                        className="custom-pill-input"
+                        value={rentPrice}
+                        onChange={e => {
+                          const v = Number(e.target.value);
+                          if (v >= 0) setRentPrice(v);
+                        }}
+                        onBlur={() => { if (rentPrice > 0) setCustomRentMode(false); }}
+                        onKeyDown={e => { if (e.key === 'Enter') setCustomRentMode(false); }}
+                        autoFocus
+                        min="50"
+                        max="2000"
+                      />
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setCustomRentMode(true)}
+                      className={`pill-btn ${!rentPresets.includes(rentPrice) ? 'active' : ''}`}
+                    >
+                      {!rentPresets.includes(rentPrice) ? `S/. ${rentPrice}` : 'Otro'}
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Local Comercial Rent Section */}
+              <div className="control-group">
+                <div className="flex justify-between items-center">
+                  <label className="group-title">
+                    <Building2 size={18} className="icon-blue" /> Renta Local Comercial
+                  </label>
+                  <span className="badge-value-blue">S/. {commercialRent}</span>
+                </div>
+                
+                <div className="pill-group">
+                  {commercialPresets.map(p => (
+                    <button
+                      key={p}
+                      onClick={() => { setCommercialRent(p); setCustomCommercialMode(false); }}
+                      className={`pill-btn ${commercialRent === p && !customCommercialMode ? 'active' : ''}`}
+                    >
+                      S/. {p} {p === 500 ? '(Ref.)' : ''}
+                    </button>
+                  ))}
+                  {customCommercialMode ? (
+                    <div className="custom-input-wrapper">
+                      <span className="custom-input-prefix">S/.</span>
+                      <input
+                        type="number"
+                        className="custom-pill-input"
+                        value={commercialRent}
+                        onChange={e => {
+                          const v = Number(e.target.value);
+                          if (v >= 0) setCommercialRent(v);
+                        }}
+                        onBlur={() => { if (commercialRent > 0) setCustomCommercialMode(false); }}
+                        onKeyDown={e => { if (e.key === 'Enter') setCustomCommercialMode(false); }}
+                        autoFocus
+                        min="100"
+                        max="5000"
+                      />
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setCustomCommercialMode(true)}
+                      className={`pill-btn ${!commercialPresets.includes(commercialRent) ? 'active' : ''}`}
+                    >
+                      {!commercialPresets.includes(commercialRent) ? `S/. ${commercialRent}` : 'Otro'}
+                    </button>
+                  )}
+                </div>
+
+                <div className="slider-container" style={{ marginTop: '0.75rem' }}>
+                  <input
+                    type="range"
+                    min="300"
+                    max="2000"
+                    step="50"
+                    value={commercialRent}
+                    onChange={e => setCommercialRent(Number(e.target.value))}
+                    className="calc-slider"
+                  />
+                  <div className="slider-labels">
+                    <span>S/. 300</span>
+                    <span className="current-val-label">S/. {commercialRent}</span>
+                    <span>S/. 2,000</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="calc-results">
-              <div className="result-card">
-                <div className="result-label">Precio del inmueble (PEN)</div>
-                <div className="result-value text-gold">S/. {formatPen(propertyPricePen)}</div>
+            {/* Results Dashboard */}
+            <div className="calc-results-dashboard">
+              {/* Monthly KPI card */}
+              <div className="dashboard-kpi-card monthly">
+                <div className="kpi-header">
+                  <span className="kpi-tag"><span className="pulse-dot"></span> SIMULACIÓN</span>
+                  <span className="kpi-title">Ingreso Mensual Estimado</span>
+                </div>
+                <div className="kpi-value text-gold">S/. {formatPen(monthlyIncome)}</div>
+                <div className="kpi-footer">Ingresos brutos proyectados por mes</div>
               </div>
-              <div className="result-card">
-                <div className="result-label">Ingreso mensual habitaciones</div>
-                <div className="result-value text-gold">S/. {formatPen(roomMonthlyIncome)}</div>
+
+              {/* Annual KPI card */}
+              <div className="dashboard-kpi-card annual">
+                <div className="kpi-header">
+                  <span className="kpi-title">Ingreso Anual Estimado</span>
+                </div>
+                <div className="kpi-value text-gold">S/. {formatPen(annualIncome)}</div>
+                <div className="kpi-footer">Proyección bruta a 12 meses con ocupación fija</div>
               </div>
-              <div className="result-card">
-                <div className="result-label">Ingreso mensual local</div>
-                <div className="result-value text-gold">S/. {formatPen(commercialRent)}</div>
+
+              {/* Stacked Chart Card - hidden from visualization */}
+              {/*
+              <div className="dashboard-card chart-card">
+                <span className="card-label" style={{ marginBottom: '0.5rem' }}>Distribución de Renta</span>
+                {monthlyIncome > 0 ? (
+                  <>
+                    <div className="stacked-bar-chart">
+                      <div 
+                        className="bar-segment rooms-segment" 
+                        style={{ width: `${roomsPct}%` }}
+                      >
+                        {roomsPct > 12 && `${roomsPct.toFixed(0)}%`}
+                      </div>
+                      <div 
+                        className="bar-segment local-segment" 
+                        style={{ width: `${localPct}%` }}
+                      >
+                        {localPct > 12 && `${localPct.toFixed(0)}%`}
+                      </div>
+                    </div>
+                    <div className="chart-legend">
+                      <div className="legend-item">
+                        <span className="legend-color rooms-color"></span>
+                        <span className="legend-text">Habitaciones: <strong>S/. {formatPen(roomMonthlyIncome)}</strong></span>
+                      </div>
+                      <div className="legend-item">
+                        <span className="legend-color local-color"></span>
+                        <span className="legend-text">Local: <strong>S/. {formatPen(commercialRent)}</strong></span>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="chart-placeholder">Suma ingresos para ver la distribución</div>
+                )}
               </div>
-              <div className="result-card">
-                <div className="result-label">Ingreso mensual bruto total</div>
-                <div className="result-value text-gold">S/. {formatPen(monthlyIncome)}</div>
+              */}
+
+              {/* ROI & Recovery Metrics - hidden from visualization */}
+              {/*
+              <div className="roi-grid">
+                <div className="roi-card">
+                  <div className="roi-label">
+                    <Percent size={14} className="metric-icon text-gold" /> ROI Bruto Ref.
+                  </div>
+                  <div className="roi-val">{roi === null ? '-' : `${roi}%`}</div>
+                  <div className="roi-desc">Retorno anual del capital</div>
+                </div>
+                <div className="roi-card">
+                  <div className="roi-label">
+                    <Calendar size={14} className="metric-icon text-gold" /> Recupero Ref.
+                  </div>
+                  <div className="roi-val">{recoveryYears === null ? '-' : `${recoveryYears} años`}</div>
+                  <div className="roi-desc font-normal">Retorno estimado total</div>
+                </div>
               </div>
-              <div className="result-card">
-                <div className="result-label">Ingreso anual bruto</div>
-                <div className="result-value text-gold">S/. {formatPen(annualIncome)}</div>
+              */}
+
+              {/* Exchange Rate Tool - hidden from visualization */}
+              {/*
+              <div className="exchange-settings-bar">
+                <span className="exchange-settings-label">
+                  <Info size={14} /> Ref. Tipo de Cambio: S/.
+                  <input
+                    type="text"
+                    value={exchangeRateInput}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (/^\d*([.,]\d{0,2})?$/.test(val)) {
+                        setExchangeRateInput(val);
+                      }
+                    }}
+                    className="exchange-rate-inline-input"
+                  />
+                </span>
+                <span className="exchange-settings-source">
+                  {exchangeSource} • Inmueble: S/. {formatPen(propertyPricePen)}
+                </span>
               </div>
-              <div className="result-card">
-                <div className="result-label">ROI bruto referencial</div>
-                <div className="result-value text-gold">{roi === null ? '-' : `${roi}%`}</div>
-              </div>
-              <div className="result-card">
-                <div className="result-label">Recupero bruto referencial</div>
-                <div className="result-value text-gold">{recoveryYears === null ? '-' : `${recoveryYears} años`}</div>
-              </div>
+              */}
             </div>
           </div>
 
           <p className="calc-note">
-            * Cálculo referencial bruto. No incluye vacancia, mantenimiento, impuestos ni gastos operativos.
+            Valores referenciales.
           </p>
         </div>
       </div>

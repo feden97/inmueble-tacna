@@ -1,4 +1,4 @@
-﻿import { property } from '../data';
+import { property } from '../data';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { CheckCircle2, Phone } from 'lucide-react';
 import WhatsAppIcon from './WhatsAppIcon';
@@ -37,7 +37,7 @@ export default function Contact() {
             <p className="contact-hours text-center">Respondemos consultas de lunes a sábado</p>
 
             <div className="contact-badges">
-              <div className="c-badge"><CheckCircle2 size={16} /> Sin comisiones</div>
+              <div className="c-badge"><CheckCircle2 size={16} /> Dueño directo</div>
               <div className="c-badge"><CheckCircle2 size={16} /> Papeles en regla</div>
               <div className="c-badge"><CheckCircle2 size={16} /> Listo para escritura</div>
             </div>

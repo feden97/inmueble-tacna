@@ -1,4 +1,4 @@
-﻿import { pisos, property } from '../data';
+import { pisos, property } from '../data';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import './Distribution.css';
 
@@ -11,7 +11,7 @@ function PisoCard({ piso, index }) {
         <div className="piso-badge">{index + 1}</div>
         <div className="piso-title-row">
           <h3 className="piso-nombre">{piso.nombre}</h3>
-          <span className="piso-area">{piso.area ? `${piso.area} m2` : '-'}</span>
+          <span className="piso-area">{piso.area ? `${piso.area} m²` : '-'}</span>
         </div>
       </div>
 
@@ -39,7 +39,7 @@ export default function Distribution() {
           Distribución por niveles
         </h2>
         <p className={`dist-subtitle text-center ${isVisible ? 'fade-in-up visible' : 'fade-in-up'}`}>
-          {property.areaConstruidaM2} m2 construidos en {property.pisos} niveles + azotea
+          {property.areaConstruidaM2} m² construidos: 3 niveles completos, departamento con terraza y azotea
         </p>
 
         <div className="pisos-list">

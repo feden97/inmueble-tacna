@@ -1,4 +1,4 @@
-﻿import { property } from '../data';
+import { property } from '../data';
 import WhatsAppIcon from './WhatsAppIcon';
 import './Footer.css';
 
@@ -22,8 +22,7 @@ export default function Footer() {
             <h3 className="footer-title">{property.titulo}</h3>
             <p className="footer-desc">
               {property.distrito}<br />
-              {property.precioTexto}<br />
-              Análisis de mercado {currentYear}
+              {property.precioTexto}
             </p>
           </div>
 
