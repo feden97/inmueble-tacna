@@ -309,6 +309,41 @@ export const galleryMedia = [
     type: 'image',
     url: '/images/inmueble-45.jpg',
     alt: 'Vista interior o exterior de la propiedad en Tacna - Foto 45'
+  },
+  {
+    type: 'image',
+    url: '/images/inmueble-46.jpg',
+    alt: 'Vista interior o exterior de la propiedad en Tacna - Foto 46'
+  },
+  {
+    type: 'image',
+    url: '/images/inmueble-47.jpg',
+    alt: 'Vista interior o exterior de la propiedad en Tacna - Foto 47'
+  },
+  {
+    type: 'image',
+    url: '/images/inmueble-48.jpg',
+    alt: 'Vista interior o exterior de la propiedad en Tacna - Foto 48'
+  },
+  {
+    type: 'image',
+    url: '/images/inmueble-49.jpg',
+    alt: 'Vista interior o exterior de la propiedad en Tacna - Foto 49'
+  },
+  {
+    type: 'image',
+    url: '/images/inmueble-50.jpg',
+    alt: 'Vista interior o exterior de la propiedad en Tacna - Foto 50'
+  },
+  {
+    type: 'image',
+    url: '/images/inmueble-51.jpg',
+    alt: 'Vista interior o exterior de la propiedad en Tacna - Foto 51'
+  },
+  {
+    type: 'image',
+    url: '/images/inmueble-52.jpg',
+    alt: 'Vista interior o exterior de la propiedad en Tacna - Foto 52'
   }
 ];
 
