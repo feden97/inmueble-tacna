@@ -2,10 +2,10 @@ export const property = {
   titulo: 'Asoc. José Carlos Mariátegui Mz 37 Lote 24',
   tagline: 'Uso mixto - 384 m² - 3 pisos + dep. con terraza - vista desde Av. Los Poetas',
   descripcionCorta: 'Inmueble comercial y residencial con alto potencial de renta',
-  precio: 220000,
-  precioTexto: 'USD 220,000',
+  precio: 210000,
+  precioTexto: 'USD 210,000',
   precioNota: 'Negociable - Trato directo con el propietario, sin intermediarios',
-  precioPorM2: 573,
+  precioPorM2: 547,
   distrito: 'Coronel Gregorio Albarracín Lanchipa',
   ciudad: 'Tacna, Perú',
   coordenadas: { lat: -18.037764, lng: -70.256437 },
@@ -344,6 +344,31 @@ export const galleryMedia = [
     type: 'image',
     url: '/images/inmueble-52.jpg',
     alt: 'Vista interior o exterior de la propiedad en Tacna - Foto 52'
+  },
+  {
+    type: 'image',
+    url: '/images/inmueble-53.jpg',
+    alt: 'Vista interior o exterior de la propiedad en Tacna - Foto 53'
+  },
+  {
+    type: 'image',
+    url: '/images/inmueble-54.jpg',
+    alt: 'Vista interior o exterior de la propiedad en Tacna - Foto 54'
+  },
+  {
+    type: 'image',
+    url: '/images/inmueble-55.jpg',
+    alt: 'Vista interior o exterior de la propiedad en Tacna - Foto 55'
+  },
+  {
+    type: 'image',
+    url: '/images/inmueble-56.jpg',
+    alt: 'Vista interior o exterior de la propiedad en Tacna - Foto 56'
+  },
+  {
+    type: 'image',
+    url: '/images/inmueble-57.jpg',
+    alt: 'Vista interior o exterior de la propiedad en Tacna - Foto 57'
   }
 ];
 

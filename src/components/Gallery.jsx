@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { ChevronLeft, ChevronRight, X, Play, ZoomIn, ZoomOut } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, Play, ZoomIn, ZoomOut, Grid } from 'lucide-react';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { galleryMedia } from '../data';
 import './Gallery.css';
@@ -7,6 +7,7 @@ import './Gallery.css';
 export default function Gallery() {
   const [sectionRef, isVisible] = useIntersectionObserver({ triggerOnce: true });
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [showAllModalOpen, setShowAllModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
   const touchStartX = useRef(0);
@@ -24,7 +25,22 @@ export default function Gallery() {
   const closeLightbox = () => {
     setLightboxOpen(false);
     setIsZoomed(false);
-    document.body.style.overflow = 'auto';
+    if (!showAllModalOpen) {
+      document.body.style.overflow = 'auto';
+    }
+  };
+
+  const openShowAllModal = (e) => {
+    e?.stopPropagation();
+    setShowAllModalOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeShowAllModal = () => {
+    setShowAllModalOpen(false);
+    if (!lightboxOpen) {
+      document.body.style.overflow = 'auto';
+    }
   };
 
   const nextPhoto = (e) => {
@@ -56,12 +72,12 @@ export default function Gallery() {
   if (totalItems === 0) return null;
 
   // Renderizar miniatura (imagen o primer fotograma de video)
-  const renderThumbnail = (item, index, isLarge = false) => {
+  const renderThumbnail = (item, index, isLarge = false, customOnClick = null) => {
     const isVideo = item.type === 'video';
     return (
       <div 
         className={`gallery-item-wrapper ${isLarge ? 'main-item' : 'sub-item'} ${isVideo ? 'video-item' : ''}`}
-        onClick={() => openLightbox(index)}
+        onClick={customOnClick || (() => openLightbox(index))}
       >
         {isVideo ? (
           <>
@@ -122,9 +138,9 @@ export default function Gallery() {
                     {renderThumbnail(mediaItems[1], 1, false)}
                   </div>
                   <div className="gallery-sub-container gallery-more">
-                    {renderThumbnail(mediaItems[2], 2, false)}
+                    {renderThumbnail(mediaItems[2], 2, false, totalItems > 3 ? openShowAllModal : null)}
                     {totalItems > 3 && (
-                      <div className="gallery-more-overlay" onClick={() => openLightbox(2)}>
+                      <div className="gallery-more-overlay" onClick={openShowAllModal}>
                         <span>Ver todas las fotos (+{totalItems - 3})</span>
                       </div>
                     )}
@@ -147,9 +163,9 @@ export default function Gallery() {
                   {renderThumbnail(mediaItems[3], 3, false)}
                 </div>
                 <div className="gallery-grid-item gallery-more item-4">
-                  {renderThumbnail(mediaItems[4], 4, false)}
+                  {renderThumbnail(mediaItems[4], 4, false, totalItems > 5 ? openShowAllModal : null)}
                   {totalItems > 5 && (
-                    <div className="gallery-more-overlay" onClick={() => openLightbox(4)}>
+                    <div className="gallery-more-overlay" onClick={openShowAllModal}>
                       <span>Ver más fotos (+{totalItems - 5})</span>
                     </div>
                   )}
@@ -159,48 +175,106 @@ export default function Gallery() {
           </div>
 
           {/* Vista Móvil (Carrusel) */}
-          <div className="md:hidden gallery-carousel" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-            <div className="carousel-images" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-              {mediaItems.map((item, i) => (
-                <div key={i} className="carousel-slide" onClick={() => openLightbox(i)}>
-                  {item.type === 'video' ? (
-                    <div className="carousel-video-slide">
-                      <video src={item.url} preload="metadata" muted playsInline />
-                      <div className="play-button-overlay">
-                        <Play size={40} fill="currentColor" />
+          <div className="md:hidden gallery-carousel-wrapper">
+            <div className="gallery-carousel" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+              <div className="carousel-images" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+                {mediaItems.map((item, i) => (
+                  <div key={i} className="carousel-slide" onClick={() => openLightbox(i)}>
+                    {item.type === 'video' ? (
+                      <div className="carousel-video-slide">
+                        <video src={item.url} preload="metadata" muted playsInline />
+                        <div className="play-button-overlay">
+                          <Play size={40} fill="currentColor" />
+                        </div>
                       </div>
+                    ) : (
+                      <img src={item.url} alt={item.alt || `Foto ${i + 1}`} loading="lazy" />
+                    )}
+                  </div>
+                ))}
+              </div>
+              
+              {/* Botón flotante Glassmorphism sobre el carrusel en móvil */}
+              {totalItems > 1 && (
+                <button className="carousel-view-all-badge" onClick={openShowAllModal}>
+                  <Grid size={14} />
+                  <span>Ver todas ({totalItems})</span>
+                </button>
+              )}
+
+              {totalItems > 1 && (
+                <>
+                  <button className="carousel-btn left" onClick={prevPhoto} aria-label="Anterior">
+                    <ChevronLeft size={24} />
+                  </button>
+                  <button className="carousel-btn right" onClick={nextPhoto} aria-label="Siguiente">
+                    <ChevronRight size={24} />
+                  </button>
+                  {totalItems <= 10 ? (
+                    <div className="carousel-dots">
+                      {mediaItems.map((_, i) => (
+                        <div key={i} className={`dot ${currentIndex === i ? 'active' : ''}`} onClick={(e) => { e.stopPropagation(); setCurrentIndex(i); }} />
+                      ))}
                     </div>
                   ) : (
-                    <img src={item.url} alt={item.alt || `Foto ${i + 1}`} loading="lazy" />
+                    <div className="carousel-counter-mobile">
+                      {currentIndex + 1} / {totalItems}
+                    </div>
                   )}
-                </div>
-              ))}
+                </>
+              )}
             </div>
-            {totalItems > 1 && (
-              <>
-                <button className="carousel-btn left" onClick={prevPhoto} aria-label="Anterior">
-                  <ChevronLeft size={24} />
-                </button>
-                <button className="carousel-btn right" onClick={nextPhoto} aria-label="Siguiente">
-                  <ChevronRight size={24} />
-                </button>
-                {totalItems <= 10 ? (
-                  <div className="carousel-dots">
-                    {mediaItems.map((_, i) => (
-                      <div key={i} className={`dot ${currentIndex === i ? 'active' : ''}`} onClick={(e) => { e.stopPropagation(); setCurrentIndex(i); }} />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="carousel-counter-mobile">
-                    {currentIndex + 1} / {totalItems}
-                  </div>
-                )}
-              </>
-            )}
+
+            {/* Botón de acción debajo del carrusel en móvil */}
+            <div className="gallery-mobile-action">
+              <button className="btn-show-all-mobile" onClick={openShowAllModal}>
+                <Grid size={18} />
+                <span>Ver catálogo de fotos ({totalItems})</span>
+              </button>
+            </div>
           </div>
 
         </div>
       </div>
+
+      {/* Modal de Cuadrícula Global (Airbnb style) */}
+      {showAllModalOpen && (
+        <div className="show-all-modal">
+          <header className="show-all-header">
+            <button className="show-all-close-btn" onClick={closeShowAllModal} aria-label="Volver">
+              <ChevronLeft size={24} /> <span>Volver</span>
+            </button>
+            <h3 className="show-all-title">Fotos del inmueble ({totalItems})</h3>
+            <div className="show-all-header-spacer"></div>
+          </header>
+          
+          <div className="show-all-content-container">
+            <div className="show-all-grid">
+              {mediaItems.map((item, index) => (
+                <div 
+                  key={index} 
+                  className={`show-all-grid-item ${item.type === 'video' ? 'video-item' : ''}`}
+                  onClick={() => openLightbox(index)}
+                >
+                  {item.type === 'video' ? (
+                    <>
+                      <video src={item.url} preload="metadata" muted playsInline />
+                      <div className="play-button-overlay">
+                        <Play size={36} fill="currentColor" />
+                      </div>
+                    </>
+                  ) : (
+                    <img src={item.url} alt={item.alt || `Foto ${index + 1}`} loading="lazy" />
+                  )}
+                  <div className="show-all-item-overlay">
+                    <span className="show-all-item-number">#{index + 1}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Lightbox / Visor de pantalla completa */}
       {lightboxOpen && (

@@ -10,7 +10,6 @@ const navLinks = [
   { id: 'distribucion', label: 'Distribución' },
   { id: 'galeria', label: 'Galería' },
   { id: 'mapa', label: 'Mapa' },
-  { id: 'inversion', label: 'Inversión' },
   { id: 'contacto', label: 'Contacto' },
 ];
 
