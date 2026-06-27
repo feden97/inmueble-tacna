@@ -7,6 +7,7 @@ import IdealUses from './components/IdealUses';
 import Distribution from './components/Distribution';
 import Gallery from './components/Gallery';
 import TransitMap from './components/TransitMap';
+import GoogleTransitMap from './components/GoogleTransitMap';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
@@ -25,6 +26,7 @@ function App() {
           <Distribution />
           <Gallery />
           <TransitMap />
+          <GoogleTransitMap />
           <Contact />
         </main>
         <Footer />
