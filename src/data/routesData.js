@@ -116,4 +116,20 @@ export const ROUTE_META = {
     sentido: 'vuelta',
     descripcion: 'Centro -> Gregorio Albarracín (pasa a 505m del inmueble)',
   },
+  'Ruta 15 S-N': {
+    id: 'R15-SN',
+    linea: '15',
+    color: '#E61E4D',
+    textColor: '#fff',
+    sentido: 'ida',
+    descripcion: 'Gregorio Albarracín -> Ciudad Nueva (pasa a 532m)',
+  },
+  'Ruta 15 N-S': {
+    id: 'R15-NS',
+    linea: '15',
+    color: '#F06272',
+    textColor: '#fff',
+    sentido: 'vuelta',
+    descripcion: 'Ciudad Nueva -> Gregorio Albarracín (pasa a 505m)',
+  },
 };

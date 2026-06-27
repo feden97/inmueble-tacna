@@ -261,8 +261,8 @@ export default function GoogleTransitMap() {
           zIndex:  1500,
           icon: {
             url:        propertyPinUrl(),
-            scaledSize: new G.Size(40, 56),
-            anchor:     new G.Point(20, 55), // tip of the pin
+            scaledSize: new G.Size(16, 22),
+            anchor:     new G.Point(8, 21), // tip of the pin
           },
         });
 
