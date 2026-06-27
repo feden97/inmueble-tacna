@@ -223,9 +223,44 @@
 
 @media (min-width: 992px) {
   .gmap-panel {
-    width: 248px;
-    flex: 0 0 248px;
+    width: 10%;
+    flex: 0 0 10%;
+    min-width: 130px;
     overflow-y: auto;
+  }
+  .gmap-panel-header {
+    padding: 0.75rem 0.5rem;
+  }
+  .gmap-panel-title {
+    font-size: 0.8rem;
+  }
+  .gmap-panel-hint {
+    display: none; /* Hide hint on desktop to save space in narrow panel */
+  }
+  .gmap-route-item {
+    padding: 0.4rem 0.5rem;
+    gap: 0.4rem;
+  }
+  .gmap-badge-pill {
+    min-width: 24px;
+    height: 18px;
+    font-size: 10px;
+    padding: 0 4px;
+  }
+  .gmap-route-name {
+    font-size: 0.75rem;
+  }
+  .gmap-route-dist {
+    font-size: 0.65rem;
+  }
+  .gmap-chevron {
+    font-size: 0.55rem;
+  }
+  .gmap-variants {
+    padding-left: 1.8rem;
+  }
+  .gmap-variant-item {
+    font-size: 0.72rem;
   }
 }
 
