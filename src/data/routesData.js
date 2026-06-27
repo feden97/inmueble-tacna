@@ -20,18 +20,18 @@ export const ROUTE_META = {
     sentido: 'vuelta',
     descripcion: 'Asociacion Los Ediles -> Centro (variante A)',
   },
-  'Ruta 01 N-S': {
+  'Ruta 1 N-S': {
     id: 'R01-NS',
-    linea: '01',
-    color: '#3949AB',
+    linea: '1',
+    color: '#85222D',
     textColor: '#fff',
     sentido: 'ida',
-    descripcion: 'Centro -> sur (pasa a 41m del inmueble)',
+    descripcion: 'Centro -> sur (pasa a 52m del inmueble)',
   },
-  'Ruta 01 S-N': {
+  'Ruta 1 S-N': {
     id: 'R01-SN',
-    linea: '01',
-    color: '#7986CB',
+    linea: '1',
+    color: '#B84A57',
     textColor: '#fff',
     sentido: 'vuelta',
     descripcion: 'Sur -> Centro (regreso)',
