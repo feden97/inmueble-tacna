@@ -100,4 +100,20 @@ export const ROUTE_META = {
     sentido: 'ida',
     descripcion: 'Centro -> Sur (pasa a 583m)',
   },
+  'Ruta 101 S-N': {
+    id: 'R101-SN',
+    linea: '101',
+    color: '#2B669A',
+    textColor: '#fff',
+    sentido: 'ida',
+    descripcion: 'Gregorio Albarracín -> Centro (pasa a 62m del inmueble)',
+  },
+  'Ruta 101 N-S': {
+    id: 'R101-NS',
+    linea: '101',
+    color: '#4B86BA',
+    textColor: '#fff',
+    sentido: 'vuelta',
+    descripcion: 'Centro -> Gregorio Albarracín (pasa a 505m del inmueble)',
+  },
 };
